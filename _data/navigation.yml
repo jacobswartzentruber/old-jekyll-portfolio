@@ -1,17 +1,22 @@
 # Site navigation links
 
 - title: Blog
+  excerpt: "Lets learn some Ruby on Rails!"
+  image: default-teaser.jpg
 
 - title: About
   url: /_pages/about/
-  excerpt: This is an excerpt
+  excerpt: "A little about myself"
 
 - title: Web Projects
+  excerpt: "Web applications I have developed"
 
 - title: Misc Projects
+  excerpt: "... and some other cool programs"
 
 - title: Resources
   url: /resources/
+  excerpt: "A collection of resources I have found helpful"
 
 - title:
   url:
