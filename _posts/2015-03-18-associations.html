@@ -19,21 +19,19 @@ meta:
   _publicize_pending: '1'
   _rest_api_published: '1'
   _rest_api_client_id: "-1"
-excerpt: !ruby/object:Hpricot::Doc
-  options: {}
+excerpt:
 ---
 <p>When I first came across model associations I knew there was a lot of potential to be gained from accessing their abilities.  Associations link one model to another by way of :has_many and :belongs_to methods.  If you are designing a site that allows users to write and share blog posts, you will use associations to make your data modeling easier.  Each User model will "have many" blog posts and every blog post will "belong to" one user.  Once this association is set up, Rails allows some interesting manipulation between the two such as deleting all blog posts a user wrote when that user is deleted.  The majority of examples from this blog post come from the work I have been doing with <a href="https://www.railstutorial.org/book/frontmatter">Ruby Tutorial by Michael Hartl</a>.</p>
 <p>I have been working with basic associations for awhile now, however I recently started diving into more complex associations.  The depth to which associations can manipulate data structures is incredibly deep, at least farther than what I previously imagined.  It is quite simple to set up a reciprocal relationship between two models if one belongs to the other.  It becomes a lot more complicated when you want to model something like followers on Twitter.  For one, following people represents a one-sided relationship, the followed person doesn't have to follow the follower back.  Second, this relationship is between two Users, not between two separate models.</p>
 <p>Lets flesh out and analyze this "Follower" model a little bit more.  With a more basic setup, you would expect to create the association between two models but we are looking to create an association with instances of the <em>same</em> model.  We have to come at this from a different angle.  We are not actually modeling an association between two users but rather an association to the users' relationship.  If we define a relationship model that stores a "follower_id" and a "followed_id," we can then say each User has many relationships and each relationship belongs to two users.  I understand this might be hard to visualize when it is in paragraph form without any visual aid.  This is more an exercise for myself in detailing what I have learned so bear with me if you are reading this.</p>
 <p>It is possible to create associations with unique names and then define what they link to later on.  When defining a relationship in a User model we can say</p>
-<blockquote>
-<pre><span class="hll"><span class="n">has_many</span> <span class="ss">:active_relationships</span><span class="p">,</span> <span class="ss">class_name</span><span class="p">:</span> <span class="s2">"Relationship"</span><span class="p">, </span></span><span class="hll"><span class="ss">foreign_key</span><span class="p">:</span> <span class="s2">"follower_id"</span><span class="p">, </span></span><span class="hll"><span class="ss">dependent</span><span class="p">:</span> <span class="ss">:destroy
-</span></span></pre>
-</blockquote>
+{%highlight ruby%}
+has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+{%endhighlight%}
 <p>:active_relationships is the unique name given to this association.  It points to the Relationship model as dictated by the class_name.  The Relationship model does not have a user_id to associate the User so we have to define a foreign_key.  The dependent: :destroy action says that the relationship will be deleted when the user is deleted.</p>
 <p>Associations can be written to include a :through element which acts as a bridge through another association.  If we need to link the Follower to everybody they Follow we write:</p>
-<blockquote>
-<pre><span class="hll"><span class="n">has_many</span> <span class="ss">:following</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="ss">:active_relationships</span><span class="p">,</span> <span class="ss">source</span><span class="p">:</span> <span class="ss">:followed</span></span></pre>
-</blockquote>
+{%highlight ruby%}
+has_many :following, through: :active_relationships, source: :followed
+{%endhighlight%}
 <p>We access the people following the user by traveling through the active relationships.  The source: :followed line dictates what elements should be gathered by the :following array.  This is powerful stuff but I am just getting my head wrapped around it at the moment.</p>
 <p>Finally, unrelated to associations, I worked with a bit of Ajax even though it was quite a bit advanced for me at this stage.  In a nutshell, Ajax allows the user to send a request to the server asynchronously without leaving the page.  Controllers include the code responding to the Ajax which is then initiated in the view forms.  Ajax uses Javascript embedded Ruby files for its actions.  This means that the developer needs to write a Javascript embedded Ruby file along with their HTML embedded Ruby to be initiated properly.</p>

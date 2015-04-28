@@ -15,26 +15,25 @@ meta:
   _publicize_pending: '1'
   _rest_api_published: '1'
   _rest_api_client_id: "-1"
-excerpt: !ruby/object:Hpricot::Doc
-  options: {}
+excerpt:
 ---
 <p>I have discovered it is easy to get stuck making data modeling decisions with the current amount of Rails knowledge I possess.  My understanding of how deeper Rails methods function is limited to generalized forms even if I am slowly correcting this as the days pass by.  When confronted with a problem, I visualize numerous solutions but lack the experience to determine which one is most optimal.  After fighting this problem for most of the day, I finally came to the understanding that when confronted with a problem like this, I simply need to strike out in one direction and make the best of that option.  How can I learn if I sit around and debate the various merits of procedures I only know about theoretically?  I will learn by writing and making mistakes.  I realize this isn't what professionals do but through the learning process, I feel this is my best option.  On the plus side, I will acquire disproportionate amounts of experience refactoring code and writing tests when I tackle unknown problems.</p>
 <p>The data modeling conundrum I encountered today posed the question of where I would register new Climbers and Gyms.  They share the same User model so could I push both signups through a user/new page?  Then again, the User model only holds log-in information and doesn't take into account differences between profiles.  Additionally, since users belong to profiles, I should technically be creating users through their respective profiles.  I eventually decided to send each profile signup through their respective 'new' page and only use user information for session access.  My reasoning for this is that Climbers and Gyms have the potential to become radically different entities as features continue to be implemented.  I separated their database tables using multiple table inheritance for a reason.  Even though both models are similar at this stage in development, I should respect my earlier decision and use the more flexible option.  With this solution in mind, I created the two new profile sign-in pages and verified they correctly create both types of users.</p>
 <p>After this, I wanted to verify a User model could only be created when it was linked to a profile.  It was time to whip out some server-side validation.  I accomplished this for the Climber profile by adding:</p>
-<p>[code lang="ruby"]<br />
-class User &lt; ActiveRecord::Base<br />
-belongs_to :profile, polymorphic: true, inverse_of: :user<br />
-validates_presence_of :profile<br />
-...<br />
-end</p>
-<p>class Climber &lt; ActiveRecord::Base<br />
-has_one :user, as: :profile, dependent: :destroy, inverse_of: :profile<br />
-...<br />
-end<br />
-[/code]</p>
+{%highlight ruby linenos%}
+class User < ActiveRecord::Base
+	belongs_to :profile, polymorphic: true, inverse_of: :user
+	validates_presence_of :profile
+	...
+end
+class Climber < ActiveRecord::Base
+	has_one :user, as: :profile, dependent: :destroy, inverse_of: :profile
+	...
+end
+{%endhighlight%}
 <p>Now, a User can not be created without being linked to a profile; completing the profile_id and profile_type columns in the User model.  What became tricky was figuring out to include</p>
-<p>[code lang="ruby"]inverse_of: :user[/code]</p>
+{%highlight ruby%}inverse_of: :user{%endhighlight%}
 <p>and</p>
-<p>[code lang="ruby"]inverse_of: :profile[/code]</p>
+{%highlight ruby%}inverse_of: :profile{%endhighlight%}
 <p>The :inverse_of method allows Rails to document the inverse association.  If this method is not included, Rails tries to automatically guess the inverse association based on heuristics.  When I left them off as a test, Rails could not find the association by itself.  I used the <a href="http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html">ActiveRecord Nested Attributes API</a> as the primary source for my research.</p>
 <p>On a more aesthetics note, I wanted to incorporate easy access for the new climber and gym signup pages so I included a carousel feature on the home page.  It now cycles through three slides pointing to the climber sign-up page, gym sign-up page and my blog.  I like how it turned out even if I am keeping design considerations minimal at the moment.  Why waste a lot of time on design when I can be spending that time on functionality?</p>

@@ -15,28 +15,29 @@ meta:
   _publicize_pending: '1'
   _rest_api_published: '1'
   _rest_api_client_id: "-1"
-excerpt: !ruby/object:Hpricot::Doc
-  options: {}
+excerpt:
 ---
 <p>The last few days have been a lot of repetitive, grunt work but I guess that comes with the territory of application development.  I haven't learned to use any new gems or discovered any new programming techniques or tricks.  It feels weird saying this considering the learning curve has been so high since I started -- I am usually learning at least one new gem or program every week.  It is a welcome relief to spend a few days solidifying my knowledge, even if that means repetitive tasks.  My time has been occupied by reading through pages and pages of CSS, Bootstrap and Rails documentation, attempting to find ideal patterns and tricks to structure sites. With this time messing around with formatting and page design, I am developing intuition for the Box model and now inherently know how to structure page elements.  My pages are beginning to match how I originally view them in my head rather than a mish-mash of elements barely holding themselves together.</p>
 <p>I reached a point I believe the <a href="https://serene-atoll-7750.herokuapp.com/">Quest productivity app is complete enough to place on a Heroku server</a>.  There are a few more features I want to add but the basic framework and functionality is there.  Feel free to check the Quest app out and create an account to track ongoing goals in your life.  I would love to hear any feedback you might have.</p>
 <p><strong>Static Data: Modules or Models?</strong></p>
 <p>One recent problem I faced was how to implement storing the names for various quest ranks.  Rank names are assigned to quests based on how many days the quest has been running.  They help break up the monotony of simply measuring quests in the context of days.  For instance, if your current progress on a quest was one day, it would be level 2, "Fresh."  Two days is level 3, "Stubborn."  I was unsure of best industry practices for storing static data not manipulated by users.  I didn't want to store rank names in the database, because from what I understand, models are used for data that is going to change over time.</p>
 <p>My solution was to create a hash of rank names and levels in the QuestsHelper module. I stored the names in a constant, defined by an all capitalized variable name.</p>
-<p>[code lang="ruby"]<br />
-RANK_NAMES = { 0 =&gt; [&quot;Newborn&quot;, &quot;1&quot;], 1 =&gt; [&quot;Fresh&quot;, &quot;2&quot;], 2 =&gt; [&quot;Stubborn&quot;, &quot;3&quot;], 5 =&gt; [&quot;Reliable&quot;, &quot;4&quot;], 10 =&gt; [&quot;Solid&quot;, &quot;5&quot;],<br />
-							20 =&gt; [&quot;Devoted&quot;, &quot;6&quot;], 30 =&gt; [&quot;Passionate&quot;, &quot;7&quot;], 45 =&gt; [&quot;Master&quot;, &quot;8&quot;], 60 =&gt; [&quot;Unique&quot;, &quot;9&quot;], 90 =&gt; [&quot;Ultimate&quot;, &quot;10&quot;]}<br />
-[/code]</p>
+{% highlight ruby linenos%}
+RANK_NAMES = { 0 => ["Newborn", "1"], 1 => ["Fresh", "2"], 2 => ["Stubborn", "3"],
+               5 => ["Reliable", "4"], 10 => ["Solid", "5"], 20 => ["Devoted", "6"],
+               30 => ["Passionate", "7"], 45 => ["Master", "8"], 60 => ["Unique", "9"],
+               90 => ["Ultimate", "10"]}
+{% endhighlight %}
 <p>The key of each element in the hash represents the day required to access that level. The value of each element is an array storing the rank title and the rank level respectively. For instance, the element with key 45 defines a quest that has been going for at least 45 days and has a rank of "Master," level 8.</p>
 <p>Additionally, I created a helper method to retrieve the rank name and level for a given quest.</p>
-<p>[code lang="ruby"]<br />
-def get_rank_name(quest)<br />
-  exp = quest.days_complete<br />
-  rank = 0<br />
-  RANK_NAMES.each do |key, value|<br />
-    exp &gt;= key ? rank = key : break<br />
-  end<br />
-  &quot;\&quot;&quot;+RANK_NAMES[rank][0]+&quot;\&quot; (Level &quot;+RANK_NAMES[rank][1]+&quot;)&quot;<br />
-end<br />
-[/code]</p>
+{% highlight ruby linenos%}
+def get_rank_name(quest)
+  exp = quest.days_complete
+  rank = 0
+  RANK_NAMES.each do |key, value|
+    exp >= key ? rank = key : break
+  end
+  "\""+RANK_NAMES[rank][0]+"\" (Level "+RANK_NAMES[rank][1]+")"
+end
+{% endhighlight %}
 <p>I decided on using a helper module to solve this problem due to the static nature of the data involved. Ruby modules are intended to serve as collections of constants and methods. Since only one constant and one method are required to implement this feature, a module serves as a better environment than defining and provisioning an entire Rank model. If I were to implement more functionality and features for ranking or if I allowed users to create their own ranks, transitioning to a Rank model would then make more sense. If you know of a better way to go about defining static data in a Rails application, please leave a comment below.</p>

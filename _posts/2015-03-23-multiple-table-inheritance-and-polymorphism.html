@@ -17,45 +17,49 @@ meta:
   _publicize_pending: '1'
   _rest_api_published: '1'
   _rest_api_client_id: "-1"
-excerpt: !ruby/object:Hpricot::Doc
-  options: {}
+excerpt:
 ---
 <p>I wanted to start my independent study with broad site changes rather than focusing on details; much like a painter puts broad strokes on paper before focusing on intricacies.  ClimbON, the climbing application I am currently programming will have two forms of users: gyms and individual climbers.  Gyms will be able to manage routes set in their gym and post upcoming events.  Climbers will be able to track what routes they have climbed and generate workouts based of this data.  Additionally, the aesthetics of the site will change depending on user type.  For the last two days I have been working on developing a log-in system that is able to differentiate between these two types of users.</p>
+
 <p>Before I began this dual-user feature, the site took only one type of user for authorization.  <a href="https://glacial-bastion-8007.herokuapp.com/">This one-user version is currently running on my production server.</a>  I originally thought I could define another variable in the user class, "type," which would differentiate between the two users.  This idea quickly fell by the wayside as I realized I need drastically different data for each user type, or "profile" as I am calling them.  Due to dissimilarities in data between profiles I decided I needed to do a lot more research about user authorization.</p>
 <p>There are two ways to implement authorization features if multiple types of users exist: Single Table Inheritance (STI) and Multi Table Inheritance (MTI).  Single Table Inheritance uses one table in the database to store information for every user, no matter what profile the user occupies.</p>
 <p style="text-align:center;"><strong>Single Table Inheritance</strong></p>
-<p>[code lang="ruby"]<br />
-class User &lt; ActiveRecord::Base<br />
-  #User methods<br />
-end</p>
-<p>class Climber &lt; User<br />
-  #Climber methods<br />
-end</p>
-<p>class Gym &lt; User<br />
-  #Gym methods<br />
-end<br />
-[/code]</p>
+{%highlight ruby linenos%}
+class User < ActiveRecord::Base
+  #User methods
+end
+
+class Climber < User
+  #Climber methods
+end
+
+class Gym < User
+  #Gym methods
+end
+{%endhighlight%}
 <p>STI is beneficial if both profiles are similar in data structure, however problems arise if their variables considerably diverge.  It creates a lot of needless complexity and nil column values if both profiles are forced to share the same User table.  Multiple Table Inheritance solves this problem because it separates profile data into unique database tables as shown below.</p>
 <p style="text-align:center;"><strong>Multiple Table Inheritance</strong></p>
-<p>[code lang="ruby"]<br />
-class User &lt; ActiveRecord::Base<br />
-  belongs_to :profile, polymorphic: true<br />
-  #User methods<br />
-end</p>
-<p>class Climber &lt; ActiveRecord::Base<br />
-  has_one :user, as: :profile, dependent: :destroy<br />
-  accepts_nested_attributes_for :user<br />
-  #Climber methods<br />
-end</p>
-<p>class Gym &lt; ActiveRecord::Base<br />
-  has_one :user, as: :profile, dependent: :destroy<br />
-  accepts_nested_attributes_for :user<br />
-  #Gym methods<br />
-end<br />
-[/code]</p>
+{%highlight ruby linenos%}
+class User < ActiveRecord::Base
+  belongs_to :profile, polymorphic: true
+  #User methods
+end
+
+class Climber < ActiveRecord::Base
+  has_one :user, as: :profile, dependent: :destroy
+  accepts_nested_attributes_for :user
+  #Climber methods
+end
+
+class Gym < ActiveRecord::Base
+  has_one :user, as: :profile, dependent: :destroy
+  accepts_nested_attributes_for :user
+  #Gym methods
+end
+{%endhighlight%}
 <p>With MTI, data for generic user log-in is stored in the User model while data unique to a profile is stored in it's own table.  This setup is much more flexible because the designer can structure a profile however he/she wants without worrying about affecting other profiles.</p>
 <p>Lets go over how Multi Table Inheritance works.  First, the user model defines a polymorphic association which I call ":profile" in my climbON app.  Polymorphism means one entity can provision itself to entities of different types.  By calling</p>
-<p>[code lang="ruby"] has_one :user, as: :profile, dependent: :destroy[/code]</p>
+{%highlight ruby%} has_one :user, as: :profile, dependent: :destroy{%endhighlight%}
 <p>in a profile, that profile is connected to a user instance in the user table.  If the profile instance is destroyed, the user instance is destroyed as well.  Since the association is polymorphic, we can use it for both the Climber class and the Gym class.</p>
 <p>One thing that wasn't clear from the many resources I read online was that when a polymorphic association is created, the "belongs_to" model has to include an "id" and "type" for the association.  In my case, I had to define a "profile_id" storing an integer and a "profile_type" storing a string in the user model.  When a climber or gym is created with their significant user instance, profile_id is incremented by one and profile_type records the associated profile name.</p>
 <p>With associations set up for climbers and gyms, I will be working on dual-user log-ins accompanied by relevant session data tomorrow.</p>

@@ -16,41 +16,38 @@ meta:
   _publicize_pending: '1'
   _rest_api_published: '1'
   _rest_api_client_id: "-1"
-excerpt: !ruby/object:Hpricot::Doc
-  options: {}
+excerpt:
 ---
 <p>I wanted to get some experience working with RSpec, Capybara and Factory Girl over the standard Test::Unit and fixtures provided by default Rails.  RSpec is a Behavior Driven Development framework that resembles natural language specification, creating tests that read similar to standard English.  Capybara is a testing framework that simulates user interaction with the site making integration testing easier.  Factory Girl is a substitute for fixtures that set up Ruby objects as test data.</p>
 <p>To get RSpec working all you have to do is install the rspec gem in the terminal:</p>
-<p>[code lang="Ruby"]gem install rspec[/code]</p>
+<p>{%highlight ruby%}gem install rspec{%endhighlight%}
 <p>Once the application you are looking to test has been created, run</p>
-<p>[code lang="Ruby"]rails generate rspec:install[/code]</p>
+<p>{%highlight ruby%}rails generate rspec:install{%endhighlight%}
 <p>This command creates a 'spec' directory to store all future spec files, generates two config files, spec_helper.rb and rails_helper.rb and finally creates a file, .rspec, which allows you to set preferences for testing.</p>
 <p>Using RSpec is fairly straightforward from what I have learned so far. I began setting up model specs for Posts for a simple blog site. A post consists of a title:string, content:text and a published:boolean. RSpec uses the keyword "describe," specifying a class to test. Within the describe method are "it" statements that dictate assertions about the model. We could set up our post_spec for our simple blog with the following code</p>
-<p>[code lang="Ruby"]<br />
-require 'rails_helper'</p>
-<p>describe Post do<br />
-  it &quot;has a valid factory&quot;<br />
-  it &quot;is invalid without a title&quot;<br />
-  it &quot;is invalid without content&quot;<br />
-  it &quot;is unpublished when first created&quot;<br />
-end<br />
-[/code]</p>
+{%highlight ruby linenos%}
+require 'rails_helper'
+describe Post do
+  it "has a valid factory"
+  it "is invalid without a title"
+  it "is invalid without content"
+  it "is unpublished when first created"
+end
+{%endhighlight%}
 <p>Within each "it" statement we can use Factories to test these assumptions. Lets complete the first assumption we made about Post</p>
-<p>[code lang="Ruby"]<br />
-describe Post do<br />
-  it &quot;has a valid factory&quot; do<br />
-    expect(build(:post)).to be_valid<br />
-  end<br />
-end<br />
-[/code]</p>
+{%highlight ruby linenos%}
+describe Post do
+  it "has a valid factory" do
+    expect(build(:post)).to be_valid
+  end
+end
+{%endhighlight%}
 <p>The expect method makes an expectation about the argument passed to it and is valued against the 'matcher' provided afterward. In this case we expect the newly created Post to not return nil when it is created. There are a number of matchers besides 'be_valid' you can query against including but not limited to: 'to be', 'to eql', 'to be_instance_of', 'to respond_to', 'to exist' and 'to match.'</p>
 <p>In terms of broader testing practices, I discovered some useful parameters when defining application tests. For instance, specs are generally broken up into three categories of testing.</p>
-<ul>
 <ul>
 <li>Model Specs: Testing the scopes, validations and custom methods of Rails models</li>
 <li>Controller Specs: Testing CRUD, requests, sessions and formats for Rails Controllers</li>
 <li>Feature Specs: Simulating a user interacting with the application through a browser by creating cases and interactions.</li>
-</ul>
 </ul>
 <p>At the bare minimum, Model specs should include tests to make sure default factories create valid objects, data in fail validations should not be valid and class and instance methods work as intended.  Model tests are generally easier to write than integration tests, therefore, it is recommended to move as much logic as possible out of the controller and into the model.  The developer then only has to write validation tests in the model spec rather than creating a complicated integration test.</p>
 <p>For the simple blog application I am using to experiment with RSpec I noticed the file loading time for RSpec was ridiculously high.  All my tests were passing and written correctly but it would take upwards of a minute to run the RSpec testing suite.  According to my terminal the actual tests were taking less than 0.01 seconds and the rest of the time was taken loading files.  I spent a few hours trying to figure out how to decrease this loading time but no real solution presented itself.  This morning when I tried running the tests they clocked in at around twenty seconds, more than half the time they took yesterday.  I have a feeling it could be my computer that is causing these long load times rather than my IDE or the RSpec configuration code because I encountered the same load times when I ran it in my host Windows computer.  I am going to try creating a quick app in Cloud9 to see if those tests run any faster.  If so, I know it is my computer and will have to find someway to make it more efficient.  If not, the problem probably resides in the Rails or Rspec code itself.  Ah, the joys of development troubleshooting!</p>

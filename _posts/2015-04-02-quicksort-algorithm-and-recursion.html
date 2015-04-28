@@ -17,8 +17,7 @@ meta:
   _publicize_pending: '1'
   _rest_api_published: '1'
   _rest_api_client_id: "-1"
-excerpt: !ruby/object:Hpricot::Doc
-  options: {}
+excerpt:
 ---
 <p>I wanted to take a moment to discuss and explain some of the <a href="https://projecteuler.net">Project Euler</a> questions I have been working on.  I finished my work yesterday completing problem #22, "Names Scores."  I really enjoyed this problem because it incorporates File IO, large array manipulation, recursion and the need for an efficient sorting algorithm.  Here is the "Name Scores" problem:</p>
 <blockquote><p>Using names.txt, a 46K text file containing over five-thousand first names, begin by sorting it into alphabetical order. Then working out the alphabetical value for each name, multiply this value by its alphabetical position in the list to obtain a name score.</p>
@@ -27,41 +26,41 @@ excerpt: !ruby/object:Hpricot::Doc
 <p>What really intrigued me about this problem  and sucked me in was the need for an efficient way for sort the names.  At the beginning, I knew I could institute an algorithm that brute forced its way through the problem by cycling again through the entire array once it made one swap.  I knew I didn't want to implement this type of brute force technique as it would take too many steps so I began to research more effective algorithms.  What I came across was the Quicksort algorithm which I eventually implemented in my final solution.  You can find my final solution here in my <a href="https://github.com/jacobswartzentruber/project_euler/blob/master/problem_22.rb">Project Euler repository.</a></p>
 <p>In short, the Quicksort algorithm assigns one element in an array as the pivot value.  You then cycle through each element in the array, placing it on either side of the pivot depending on how it compares to the pivot value.  Repeat this process with the two smaller sub-arrays until each sub-array holds one value.  Once all sub-arrays hold one value, the array has been sorted!  A great visual representation of Quicksort can be found at the <a href="http://sorting.at/">Sorting website</a> and, of course, a thorough summary is detailed on the <a href="http://en.wikipedia.org/wiki/Quicksort">Quicksort Wikipedia page</a>.</p>
 <p>What is great about this algorithm is it allows you to manipulate all of the data within one array and utilize recursion to make the code fairly short.  Below is my code for the recursive first step in the algorithm.  The defined quicksort method keeps cycling through until all sub-arrays have one value</p>
-<p>[code lang="Ruby"]<br />
-@names = [&quot;Joe&quot;,&quot;Ruby&quot;,&quot;Luke&quot;,&quot;Sarah&quot;]<br />
-# lo is the leftmost index, hi is the rightmost index (inclusive)<br />
-def quicksort(lo, hi)<br />
-  # If more than one element in array, begin to sort<br />
-  if lo &lt; hi<br />
-    # Partition the given array using a pivot value, returns the pivot index<br />
-    p = partition(lo, hi)<br />
-    # Sort the two smaller sub-arrays<br />
-    quicksort(lo, p - 1)<br />
-    quicksort(p + 1, hi)<br />
-  end<br />
-end<br />
-[/code]</p>
+{%highlight ruby linenos%}
+@names = ["Joe","Ruby","Luke","Sarah"]
+# lo is the leftmost index, hi is the rightmost index (inclusive)
+def quicksort(lo, hi)
+  # If more than one element in array, begin to sort
+  if lo < hi
+    # Partition the given array using a pivot value, returns the pivot index
+    p = partition(lo, hi)
+    # Sort the two smaller sub-arrays
+    quicksort(lo, p - 1)
+    quicksort(p + 1, hi)
+  end
+end
+{%endhighlight%}
 <p>The second part of the algorithm is defined in the partition method. The partition method takes a given array, assigns a pivot value and organizes all elements in the array around the pivot value</p>
-<p>[code lang="Ruby"]<br />
-# lo is the index of the leftmost element of the subarray<br />
-# hi is the index of the rightmost element of the subarray (inclusive)<br />
-def partition(lo, hi)<br />
-  # Set the pivot index and value to the rightmost element in the array<br />
-  # Set store_index, eventual final pivot point, to the leftmost element in array<br />
-  pivot_index = hi<br />
-  pivot_value = @names[pivot_index]<br />
-  store_index = lo</p>
-<p>  # Compare remaining array elements against pivotValue = A[hi]<br />
-  (lo...hi).each do |i|<br />
-    if @names[i] &lt; pivot_value<br />
-      @names[i], @names[store_index] = @names[store_index], @names[i]<br />
-      store_index += 1<br />
-    end<br />
-  end<br />
-  # Move pivot to its final place<br />
-  @names[hi], @names[store_index] = @names[store_index], @names[hi]<br />
-  return store_index<br />
-end<br />
-[/code]</p>
+{%highlight ruby linenos%}
+# lo is the index of the leftmost element of the subarray
+# hi is the index of the rightmost element of the subarray (inclusive)
+def partition(lo, hi)
+  # Set the pivot index and value to the rightmost element in the array
+  # Set store_index, eventual final pivot point, to the leftmost element in array
+  pivot_index = hi
+  pivot_value = @names[pivot_index]
+  store_index = lo
+  # Compare remaining array elements against pivotValue = A[hi]
+  (lo...hi).each do |i|
+    if @names[i] < pivot_value
+      @names[i], @names[store_index] = @names[store_index], @names[i]
+      store_index += 1
+    end
+  end
+  # Move pivot to its final place
+  @names[hi], @names[store_index] = @names[store_index], @names[hi]
+  return store_index
+end
+{%endhighlight%}
 <p>There was some discussion on the Wikipedia page on which element to set as the pivot point. If the right-most element is selected, it is possible to return worst-case performance if the array isn't totally random. Since my array of names is sufficiently random and optimization isn't too big of an issue for this problem, I decided to stick with the right-most element as pivot. If performance is a critical issue, however, this issue can be solved by assigning the middle-most or randomized element as the pivot point.</p>
 <p>I hope upcoming Project Euler questions are more like the "Names Scores" problem.  I enjoyed combining more complex tasks and algorithms above the basic loops and variable assignment necessary for previous problems.  I am excited I was able to practice some basic File IO and recursion principles.  Hopefully, I will be able to put my new sorting knowledge to use while working on an application.</p>
