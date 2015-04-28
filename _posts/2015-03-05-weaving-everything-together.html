@@ -1,0 +1,37 @@
+---
+layout: article
+title: Weaving Everything Together
+date: 2015-03-05 18:15:29.000000000 -06:00
+categories: []
+tags:
+- Bootstrap
+- Twitter Clone
+status: publish
+type: post
+published: true
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>My goal for the day was to experiment and tinker with all the elements on the Twitter Clone.  I wanted to understand how each language interacted with each other.  How are elements arrayed?  What are the limitations of inserting CSS into Ruby code?  What can I do with this Boostrap grid system?  Can I create a new Tweet without the 'New' Tweet page?  Here is a screenshot of what I have at the end of the day:</p>
+<p><a href="https://acuriouscrossbreed.files.wordpress.com/2015/03/twitter-clone-03_05_2015.png"><img class="aligncenter size-medium wp-image-88" src="assets/twitter-clone-03_05_2015.png?w=300" alt="Twitter Clone 03_05_2015" width="300" height="97" /></a></p>
+<p>Per one of my questions from the previous day, I wanted to see if I could inject CSS and Javascript into the Ruby code that created forms.  After a bit of research and searching I found that it was indeed possible. By typing,</p>
+<blockquote><p>&lt;%= f.text_area :text, class: 'form-control status-box' %&gt;</p></blockquote>
+<p style="text-align:left;">I was able to assign the classes 'form_control' and 'status-box' to the text_area.  It turns out the 'form_for' Ruby function is simply a helper that generates an HTML form tag, action and method.  Since it is converted to HTML it is a small step to apply JavaScript to those elements.  Here is the guide I used where I found this information, http://edgeguides.rubyonrails.org/working_with_javascript_in_rails.html</p>
+<p style="text-align:left;">There were some cool Bootstrap features that I was able to implement.  Text_areas and buttons, when assigned a 'form-group' class, include a measure of client-side validation through Bootstrap.  To incorporate this validation, I disabled the 'Post' button and changed the text_area to red when posts reach longer than 140 characters.  The button with class 'btn-post' is assigned a 'disabled' class and the 'status-box' text_area is assigned a 'has-error' class.</p>
+<p style="text-align:left;">Tomorrow, I want to tidy up the code with partials, include server side validation and institute some error-handling.  Bootstrap has some cool flash messages for errors that I am excited to try out.  Depending on how long this takes, I will also create a User model and figure out sign-in and sign-out user authentication.</p>
+<p style="text-align:left;">As a sidenote, I need to find a way to easily display code samples in this blog.  I will do some searching tomorrow and see if I can come up with anything.  Using the Wordpress blockquote function is less than ideal, ugh.</p>
+<p style="text-align:left;">Questions for the day:</p>
+<ul>
+<li style="text-align:left;">Right now, Rails takes the user to the 'show' page when a new Tweet is created.  Is there a way I can bypass this 'show' page and simply have it appear below all the other Tweets on the 'index' page?</li>
+<li style="text-align:left;">I tried writing a &lt;title&gt; tag in the &lt;head&gt; of my HTML but instead of the &lt;title&gt; tag showing up in the browser it simply gives the project name, "TwitterClone."  I wonder why this is overridden?</li>
+</ul>

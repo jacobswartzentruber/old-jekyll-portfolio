@@ -1,0 +1,26 @@
+---
+layout: article
+title: Development Virtual Machine up and running
+date: 2015-04-05 12:41:55.000000000 -05:00
+categories: []
+tags:
+- Cloud9
+- IDE
+- Ubuntu
+- Vagrant
+- Virtual Machine
+- VirtualBox
+status: publish
+type: post
+published: true
+meta:
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Two days ago, the development IDE I set up on Cloud9 had become increasingly finicky.  I would try to load the platform at certain times during the day and was greeted with loading icons for hours at a time.  I became increasingly frustrated when my work output suffered, whether the problems stemmed from internet connections, Cloud9 server functionality or a combination of the two.  I always knew the Cloud9 IDE would be a temporary fix until I found something new but some small part of me hoped it would continue to work indefinitely.  As I still use a Windows laptop and with Cloud9 out of the picture, I was left with no other choice but to tackle the beast that was setting up a Linux virtual machine once more.</p>
+<p>As detailed in a blog post I wrote last month, I spent countless hours previously attempting to set up a virtual machine on my laptop with VirtualBox and Vagrant to no avail.  The amount of errors and fixes that kept appearing were too much for the knowledge I had possessed then.  This time I was more confident in my abilities to understand how Vagrant worked and had acquired experience working in an Ubuntu command shell thanks to Cloud9.  With these tools and another twelve hours over two days, I was able to work past all of my previous hangups and get an Ubuntu Virtual Machine running Ruby, Rails, Git, Bundler and SQLite3 on my laptop.  I can finally start developing programs locally on a dedicated development environment without worrying about Windows bugs that plagued me when I first began studying.  I have never felt more proud of myself after setting this system up considering the amount of time and effort it took to get working.</p>
+<p>While I learned a lot about Vagrant, VirtualBox and Linux commands over the last two days, I am once again grateful to be working on primary languages related to web application development like Ruby and Rails.  The programs and problems I tackled this week somehow feel far removed from the actual process of coding applications but are incredibly necessary to get the more primary languages working fluidly.</p>
+<p>I intend to delve into RSpec in the next few days and begin exploring the limits of its testing capabilities.  I have been using the standard rails testing suite with fixtures up until now but as my applications grow more complex, I am beginning to become hindered by its limitations.  I understand a lot of applications use RSpec professionally so if anything I will be expanding my professional development.  If you know any relevant resources that are great for understanding RSpec, I would love to hear your feedback.</p>

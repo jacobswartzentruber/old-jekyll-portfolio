@@ -1,0 +1,35 @@
+---
+layout: article
+title: Let the Testing Begin!
+date: 2015-03-13 10:36:45.000000000 -05:00
+categories: []
+tags:
+- Assertions
+- debugger
+- Integration Test
+- Test Driven Development
+- Testing
+status: publish
+type: post
+published: true
+meta:
+  _wpas_skip_twitter: '1'
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Testing is an important part of web application development.  Imagine if you were developing an application and had to test all of the links by hand, log-in every time you needed to check a user method or test functionality across controller, model and views?  The time you would waste going through the stupendous amount of elements to check would be incredible.  Instead, developers write tests within a test suite to automate checking functionality of various app elements.  One the tests are written, the developer simply has to run the test suite to check the entire program.</p>
+<p>There are three things testing allows the developer to do.  First, they allow the developer to check for regressions, when an implemented feature suddenly stops working.  Second, testing allows the code to be refactored, changing the form of the code without changing its functionality.  Finally, testing acts as a client for the application, helping to verify the structure and intentions of the site.</p>
+<p>Test Driven Development is a form of testing that has become standard for many programming practices.  The concept of Test Driven Development rests on the idea that you should write failing tests for your application first.  The developer then constructs the feature modeled by the test until the test passes.  Once the test passes, the developer is guaranteed a higher probability that his program is working correctly and within specifications.  The developer may then refactor the code without worry because the test has already been written.  This cycle is known as "Red, Green, Refactor."</p>
+<p>Tests in Rails are structured around the 'assert' keyword.  For a test to pass, all of the assertions defined in the test must pass.  For instance, 'assert_redirected_to' tests whether a page was redirected to a specific location.  'Assert_template' verifies a certain template is being used.  There are many of these assert commands and they allow the developer to test across a wide range of behaviors.</p>
+<p>Integration tests are tests that test functionality across Models, Controllers and Views.  For instance, I created an integration test to check that user login was working correctly.  I first sent a request to the login_path to create a user.  I then used an assert command to verify that the user was logged in.  I then asserted that the user was redirected to their user profile page.  On the profile page it is necessary to check whether the template shown is indeed 'users/show.'  Finally, I checked whether the links on the profile page were correct by assert_selecting the &lt;a&gt; tag and verifying where they pointed.  If any of these assertions were false when I run the 'user_login' test, the test suite notifies me and tells me which assertion failed.</p>
+<p>While not part of the test suite, a handy method to use when trying to find bugs is the 'debugger' method.  If you know the general area of code where a bug is occurring, you can place the debugger method in that area.  When the program runs and hits the debugger method, it pauses execution and opens a prompt in the command window called (bye-bug).  The developer can use bye-bug to check the status of the application such as the condition of parameters and variables.</p>
+<p>Another fun trick is to use 'raise' to check whether a block of code is currently untested.  If you are unsure a block of code you have written is covered by tests you can insert the 'raise' method into that block.  When the testing suite runs, the results will return an error if the code is covered.  If there are currently no tests covering that block of code, the test suite will return green.</p>
+<p>I am starting to get the hang of the testing process but it is still hard to recognize when a feature needs to be tested and what test should be used.  I assume it is one of those things that comes with practice.  It is difficult at the beginning but when you get more experience creating tests and encountering bugs everything begins to make a bit more sense.  My best option at this point is to practice, practice, practice writing tests and deciphering the results.</p>

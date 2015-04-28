@@ -1,0 +1,48 @@
+---
+layout: article
+title: Project Euler
+date: 2015-03-30 17:42:55.000000000 -05:00
+categories: []
+tags:
+- arrays
+- Project Euler
+- pseudo-code
+- Routes
+- skeleton
+- strings
+- style
+- vision
+status: publish
+type: post
+published: true
+meta:
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Since my last post, I have concentrated on increasing and solidifying my Ruby knowledge.  I have spent a lot of time completing Project Euler questions and familiarizing myself with Ruby methods for strings and arrays.  As I work through the problems, I am constantly finding new tricks to make manipulating strings and arrays easier.  For instance, at one point I need to generate the sum of integers within an array.  I first accomplished this with the following code:</p>
+<p>[code lang="Ruby"]<br />
+sum = 0<br />
+myArray.each { |s| sum += s }<br />
+[/code]</p>
+<p>I wondered if there was a built-in method that could condense this code. After a bit of searching I unearthed the inject method for arrays. I refactored my code with the inject method to sum all elements of an array together. The symbol passed to the inject method tells Ruby what actions to perform upon the array.</p>
+<p>[code lang="Ruby"]<br />
+myArray.inject(:+)<br />
+[/code]</p>
+<p>Here are a few more methods I found useful while solving problems</p>
+<p>[code lang="Ruby"]<br />
+# '&amp;' Returns an array containing elements common to two arrays<br />
+[0,1,2,3] &amp; [2,3,4,5]<br />
+=&gt; [2,3]</p>
+<p># '|' Returns an array containing unique elements between the two arrays<br />
+[0,1,2,3] | [2,3,4,5]<br />
+=&gt; [0,1,2,3,4,5]</p>
+<p># 'step' method for enumerators defines steps to take over range<br />
+(0..10).step(2).each {|n| print n.to_i + &quot; &quot; }<br />
+=&gt; 0 2 4 6 8 10<br />
+[/code]</p>
+<p>I have added the ability for gyms to create new routes on ClimbON.  This feature can be accessed on the gym profile page when a gym is logged in.  As the administrator of your gym profile, you can give each route a name, difficulty rating, route color and additional comments.  The routes show up on their associated gym profile page.  I was working on developing route partial layouts with CSS but realized I have not defined a unified style for the site.  This leads me into my final thought for the day, the importance of developing a skeleton site structure and theme before filling in all the details and functionality.</p>
+<p>I am beginning to encounter problems pertaining to the global vision of the application as ClimbOn continues to develop.  For example, as I attempted to generate views for showing routes, I had no global theme for referencing colors, layouts or styles.  I spent a few hours messing around with the CSS stylesheets until I found something I thought looked appropriate.  If I had a global style vision from the beginning, I could have saved myself those few hours by referencing my style guide and developing the Route views according to it's rules.</p>
+<p>I ran into this same "global" problem this weekend as I began developing a program for solving Sudoku puzzles.  I knew the logical steps I needed to take to complete the application and began developing these features in turn.  As the program grew, however, and I needed to debug specific portions of code, the structure of the program slowly shifted away from what I originally intended.  I now realize I should have developed a skeleton of pseudo-code to guide my progress even if I thought I knew all the steps ahead of time.  I am beginning to understand that code is an ever-evolving monster.  I need to tame and control this beast from its inception before it gets out of control and unwieldy.  I am planning on rewriting the Sudoku code I developed this weekend with a stronger pseudo-code skeleton structure in place.</p>

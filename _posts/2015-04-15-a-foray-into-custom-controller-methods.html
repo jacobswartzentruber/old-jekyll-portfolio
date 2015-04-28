@@ -1,0 +1,62 @@
+---
+layout: article
+title: A Foray Into Custom Controller Methods
+date: 2015-04-15 09:51:31.000000000 -05:00
+categories: []
+tags:
+- Bootstrap
+- controller
+- Design
+- Productivity
+- Quest App
+status: publish
+type: post
+published: true
+meta:
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p><a href="https://acuriouscrossbreed.files.wordpress.com/2015/04/quest-app-04_15_15.png"><img class="aligncenter size-medium wp-image-232" src="assets/quest-app-04_15_15.png?w=300" alt="Quest App 04_15_15" width="300" height="134" /></a></p>
+<p>Yesterday, I was fairly surprised at how much work I was able to accomplish in one day.  I still have extended periods of searching for solutions to problems but common development patterns are starting to feel a lot smoother.  I have included the screenshot above to show how far the Quest productivity app has come.</p>
+<p><strong>Updating Attributes and Custom Controller Methods</strong></p>
+<p>One feature I spent an inordinate amount of time on yesterday was implementing a button to reset all progress for a quest in one click.  Up until yesterday, I strictly used forms and the standard CRUD actions to manipulate models.  I could have used the same approach for this reset button but realized it could be implemented a lot easier with a custom controller method and no form.  Plus, what better way to learn new techniques than messing around and trying new things?</p>
+<p>I didn't want to use the "update" method of the Quest controller for resetting progress because "update" is built to accommodate multiple parameters dictated and defined by the user.  First, the quest reset button isn't meant to be customizable by the user.  Its one and only purpose is to reset the start date of the quest to today's date.  There are no options that allow the user to select from multiple start dates -- it is unwavering and absolute in its purpose.  Second, the reset button doesn't need to update a varying number of parameters.  It readjusts the start day, last record and goal attributes every single time, no exceptions or additions.  As such, I realized a custom method in the Quest controller would better fit the action to reset a quest.</p>
+<p>I created the following method, "reset," in the Quest controller as shown below.</p>
+<p>[code lang="ruby"]<br />
+# Reset start_day to today's date and last_record back to zero<br />
+def reset<br />
+  @quest = Quest.find(params[:id])</p>
+<p>  # If quest already complete, update goal to last_record<br />
+  @quest.days_complete &gt; @quest.goal ? new_goal = @quest.days_complete : new_goal = @quest.goal</p>
+<p>  # If days_complete is the longest run so far, update last_record<br />
+  @quest.days_complete &gt; @quest.last_record ? new_record = @quest.days_complete : new_record = @quest.last_record</p>
+<p>  # Attempt to update attributes and set start_day to today's date<br />
+  if @quest.update_attributes(start_day: Date.today, last_record: new_record, goal: new_goal)<br />
+    flash[:success] = &quot;Quest reset!&quot;<br />
+    redirect_to quests_path<br />
+  else<br />
+    flash[:warning] = &quot;Quest reset failed&quot;<br />
+    redirect_to quests_path<br />
+  end<br />
+end<br />
+[/code]</p>
+<p>Adding the relevant route,</p>
+<p>[code lang="ruby"]<br />
+resources :quests do<br />
+  member do<br />
+    put :reset<br />
+  end<br />
+end<br />
+[/code]</p>
+<p>And initiating a call to the reset method in a view,</p>
+<p>[code lang="ruby"]<br />
+&lt;%= link_to &quot;Reset Progress&quot;, reset_quest_path(quest), method: :put,<br />
+                              data: { confirm: &quot;Are you sure you want to RESET all progress?&quot; },<br />
+                              class: &quot;btn btn-xs btn-warning&quot; %&gt;<br />
+[/code]</p>
+<p>By adding the reset route as a 'member' of quest resources, I can now reference reset within the context of a singular quest.  If reset influenced multiple quests at a time, the correct declaration would be 'collection' as opposed to 'member.'  Once the reset route has been defined, Rails automatically defines the route name as reset_quest_path since reset belongs to a singular quest.  The only other requirement when creating the link in a view is to define the method type, :put, much like referencing a destroy action with the :delete method.</p>
+<p><strong>Formatting and Design</strong></p>
+<p>I am still experimenting and expanding the bounds of what I can accomplish with CSS and HTML.  I tend to pick up a few extra tricks during development of various applications however I feel like I have a long way to go.  It is one area I would love to dive into but recognize design is a field to which people devote their entire lives.  I need to stay focused on the logic and structure of applications if I am going to progress at a standard pace, hence the spartan feel to many of my applications.  Bootstrap is amazing because it allows me to produce coherent designs with minimal time investment.  Perhaps once I become fully proficient in Ruby, Rails and Javascript I can spend more time on design considerations.  As it stands now I will have to stick with my spartan applications, however alluring design and formatting appeal to me.</p>

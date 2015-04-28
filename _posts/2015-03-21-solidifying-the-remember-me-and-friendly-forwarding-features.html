@@ -1,0 +1,30 @@
+---
+layout: article
+title: Solidifying the "Remember Me" and "Friendly Forwarding" features
+date: 2015-03-21 12:37:56.000000000 -05:00
+categories: []
+tags:
+- bugs
+- friendly forwarding
+- remember me
+status: publish
+type: post
+published: true
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>When I was creating the "remember me" option for logging in, I encountered a bug that helped me understand the intricacies of accessing permanent cookies.  The bug happened when I logged in and attempted to remember a user.  Permanent cookies were successfully created that stored user_id and a remember token, however the site would still display a "Log In" button as if it could not recognize the user.  It turns out, after about two hours of debugging, I was storing the digest of the remember token in the permanent cookie as opposed to the remember token itself.</p>
+<p>During this debugging, however, I was forced to go through the code concerning session login ten times over.  Before this bug, I wasn't entirely sure how a page accessed the permanent cookies every time a remembered user visited the site.  As far as I could tell, the tutorial on user login hadn't included specific instructions to search for permanent cookie data.  I eventually found the trigger in code included in the header view.  The header view calls a method logged_in? which returns true if the site has a current user.  The logged_in? method utilizes another method, current_user, asking if it returns nil.  This is accomplished through the call, !current_user.nil?  Even though the logged_in? method is calling a boolean return argument on current_user, the entire current_user method is still run.  It is within current_user that the permanent cookies are accessed and the user is logged in if they haven't been already.  In short, the current_user method queries the permanent cookies through every browser call because it is included in the header presented on every page.  A simple yet elegant solution now that I know how it works.</p>
+<p>Friendly redirecting was another feature I recently learned about and implemented.  Friendly redirecting is when a user who is not logged in visits a page they are unauthorized to view and are redirected to the login page.  Without friendly forwarding, the user will always be taken to their profile page after logging in no matter what page they were originally trying to view.  By instituting friendly forwarding, the site stores the page the user was trying to visit and redirects them to that same page once the user logs in.</p>
+<p>Friendly forwarding uses Rails sessions to accomplish this feat.  For every page that a user must be logged-in to view, there is a before_action callback that checks a users logged-in status and sends them to the log-in screen if it returns false.  If this returns false, I created a method called store_location that stores the forwarding_url in the Rails session.  The user is then sent to the log-in page.  Once they successfully complete the log-in form, the create action in the sessions controller uses a method I call redirect_back_or(default) which is defined in the sessions helper.  This method searches the session[:forwarding_url] to see if anything is stored there.  If so, it redirects to that url.  If not, the method forwards the request on to the default parameter url.  There isn't much code to this feature but it provides some nice functionality.</p>
+<p>I have been working on the User model, Log In, Sign Up, Activation, etc. for my climbing app the last two days so my next post will include a summary of what I have accomplished for that project.  I have to say, now that I am working on my own project, my motivation for learning new things has increased significantly.  Its oddly stimulating to see if I can implement all the new ideas I have in mind.</p>

@@ -1,0 +1,37 @@
+---
+layout: article
+title: Validation, Authentication and Authorization
+date: 2015-03-06 18:43:19.000000000 -06:00
+categories: []
+tags:
+- Authentication
+- Authorization
+- Regular Expressions
+- Rubular
+- Twitter Clone
+- Validation
+status: publish
+type: post
+published: true
+meta:
+  _rest_api_client_id: "-1"
+  _wpas_skip_path: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>It turns out, going through the Twitter Clone code I had written so far and incorporating partials only took a few minutes.  Its pretty easy when there are only a few pages of code to clean up.  Since this was going to be one of the main things I wanted to get done today, I instead dove straight into developing user authorization and authentication.</p>
+<p>One of the first decisions I had to address was whether to use a security gem or create my own form of authentication system.  I was leaning toward using the Devise gem but finally decided against it.  The entire reason I am writing this program is to learn how to do things myself.  Why take shortcuts and miss learning important basic features, features that Devise utilizes and depends upon?  While it is a lot more difficult to program my own authentication system, I decided to go for it after all since this is a learning experience.</p>
+<p>I came across this wonderful <a title="Rails Tutorial" href="https://www.railstutorial.org/book/modeling_users">tutorial by Michael Hartl</a> which does an excellent job explaining the intricacies of authentication systems.  I completed Chapter 6 and 7 which runs through setting up a user model, validating 'User' instances, creating a sign-in page and linking this page to the user model.  Bonus, the tutorial uses Bootstrap so it fits in perfectly with what I have already written.</p>
+<p>Security for storing passwords was one lesson I was glad to receive.  Security has always been a form of special magic I thought I wouldn't understand for another month or so at least.  After working through some problems though, it seems fairly straightforward.  Rails has a gem called bcrypt which uses an irreversible hash function to convert passwords to encrypted hash values.  This hash value is stored in the database under the appropriate user when they make an account.  When the user attempts to log-in, the password they input is converted to its corresponding hash value and matched to the hash value stored in the database.  The user is allowed access if it matches.  If a hacker were ever to gain access to the database, they would only come away with the stored hash values.  The actual passwords are only used client-side by the users themselves..</p>
+<p>When attempting to validate confirmation of a password I was given a brief lesson in regular expressions.  I haven't had too much experience with regular expressions yet but this was a welcome opportunity to expand my boundaries.</p>
+<blockquote><p>/\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i</p></blockquote>
+<p>The regular expression above validates the format of an email address.  A breakdown of this regular expression is best <a title="Validate Email Regex" href="https://www.railstutorial.org/book/modeling_users#table-valid_email_regex">summarized at this link</a>.  In the future if ever I am going to work with or practice constructing regular expressions, there is a site called <a title="Rubular - Regular Expression Editor" href="http://rubular.com/">Rubular</a> which is a regular expression editor.  You insert a regular expression and can then test it against a selection of inputted strings.</p>
+<p>After working through about half of Michael Hartzl's tutorial, I realized I should soon spend time learning Git and Heroku.  My application is acquiring more and more functionality.  It is harder to capture the spirit of the application through screenshots; it is best experienced interactively.  Heroku would allow me to host the application on their servers which I could link to on this blog.  Additionally, I want to learn Git for future projects primarily for the version control it offers.  My future projects are only going to get bigger as concepts and construction become easier.  I would like some version security in case I implement a feature and it breaks the entire application.  Thankfully, Twitter Clone wont grow to that size but it has thankfully brought my attention to the fact.</p>
+<p>Yesterday, I mentioned that the &lt;title&gt; tags on my HTML files were not working.  It turns out &lt;title&gt; tags were already included in the application.html.erb file which inserts html code onto every page.  The application.html.erb file was overriding my secondary &lt;title&gt; tags because my earlier tags were technically residing within the application tags.  Boom, problem solved.</p>

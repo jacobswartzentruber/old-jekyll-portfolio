@@ -1,0 +1,79 @@
+---
+layout: article
+title: Getting to know Factories and Capybara
+date: 2015-04-08 15:25:54.000000000 -05:00
+categories: []
+tags:
+- Capybara
+- Factories
+- Factory Girl
+- Fixtures
+status: publish
+type: post
+published: true
+meta:
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>It feels like forever since I was able to work on Rails applications without having to fix something with my computer or development environment but today ran incredibly smooth!  It is quite the transition to go from troubleshooting hardware and operating system issues to developing software logic and web application flow.  I love every second of it!</p>
+<p>This morning I fully fleshed out my simple blog to practice RSpec, Capybara and Factory Girl.  I created a <a title="Rspec Blog" href="https://github.com/jacobswartzentruber/rspec_blog">repository for the testing blog</a> on my GitHub account if you want to check it out.  The goal for this project is to not only become familiar with the above programs but to educate myself about broader testing practices in general.</p>
+<p><strong>Factories</strong></p>
+<p>Factories allow you to define instances of an object for a testing environment in a flexible and adaptable manner.  Factories generate their instances when called upon by a test, whereas fixtures are automatically loaded into the test database when testing begins.  Fixtures skip the entire object creation process, meaning Active Record validations and callbacks do not work for them.  Since factories are created using Active Record, they are required to pass through validations and callbacks and lend themselves to more complicated associations.  Depending on the needs of your application, it is worth taking time to consider whether factories or fixtures would be a better fit.</p>
+<p>Once the Factory Girl gem is installed, factories are defined in a /spec/factories folder.  To define the post factory for my simple blog I wrote,</p>
+<p>[code lang="Ruby"]<br />
+FactoryGirl.define do<br />
+  factory :post do<br />
+    title &quot;Post One&quot;<br />
+    content &quot;This is Post One&quot;<br />
+    published false<br />
+  end<br />
+end<br />
+[/code]</p>
+<p>This defines a factory, :post, which I can use at any point when I am writing my RSpec or Capybara tests.  Lets take a look at the spec I wrote for my post model and break it down</p>
+<p>[code lang="ruby"]<br />
+require 'rails_helper'</p>
+<p>RSpec.describe Post, type: :model do<br />
+  it &quot;has a valid factory&quot; do<br />
+    expect(build(:post)).to be_valid<br />
+  end</p>
+<p>  it &quot;is invalid without a title&quot; do<br />
+    expect(build(:post, title: nil)).to_not be_valid<br />
+  end</p>
+<p>  it &quot;is invalid without content&quot; do<br />
+    expect(build(:post, content: nil)).to_not be_valid<br />
+  end</p>
+<p>  it &quot;is unpublished when created&quot; do<br />
+    expect(build(:post).published).to eq(false)<br />
+  end<br />
+end<br />
+[/code]</p>
+<p>The build method simply instantiates a new factory without saving it to the database.  When the default build(:post) is run, it generates a post with the attributes we set in our factory definition.  Since we need to generate a post that is invalid in the second assertion, it is simply a matter of calling build(:post, title: nil).  This instantiates our default post but changes the title to nil.  It really is just as easy as tacking on different options to fit each unique case.</p>
+<p><strong>Capybara</strong></p>
+<p>I had a bit of experience writing integration tests with the Rails Tutorial by Hartl before I began looking into Capybara.  Capybara calls them 'feature' tests but they are just like integration tests in that they attempt to mimic the final user experience.  With feature tests, the developer is primarily concerned with making sure the user sees what they should be seeing.  It doesn't really matter how it all comes together behind the scenes -- let the model tests take care of that.  If the user can move through the prescribed actions correctly and sees the correct views, then the feature test has done its job.</p>
+<p>Below is the feature test mimicing how a user creates a post</p>
+<p>[code lang="ruby"]<br />
+require 'rails_helper'</p>
+<p>feature 'User creates a new post' do<br />
+  scenario 'with valid attributes' do<br />
+    visit new_post_path<br />
+    fill_in 'post_title', with: 'My Title'<br />
+    fill_in 'post_content', with: 'Content'<br />
+    check 'post_published'<br />
+    click_on 'Create Post'</p>
+<p>    expect(page).to have_content('Show Post')<br />
+  end</p>
+<p>  scenario 'with invalid attributes' do<br />
+    visit new_post_path<br />
+    fill_in 'post_title', with: ''<br />
+    fill_in 'post_content', with: 'Content'<br />
+    check 'post_published'<br />
+    click_on 'Create Post'</p>
+<p>    expect(page).to have_content('Create a Post')<br />
+  end<br />
+end<br />
+[/code]</p>
+<p>Capybara uses 'feature' and 'scenario' much like RSpec uses 'describe' and 'context.'  Capybara has methods that mimic user interaction with the browser like 'visit', 'fill_in' and 'check.'  As you can see, the test reads very similar to standard English.  For the scenario in which a user creates a post with valid attributes, the test first visits the page to create new posts.  The test then fills in the title and content form fields with valid strings.  The published checkbox is checked signifying the test wants the form to return true on the published attribute.  By issuing "click_on 'Create Post,'" Capybara follows the controller commands dictating what to do when the submit button is pressed.  Finally, the test finishes by making its first expectation, verifying the redirect contains the words "Show Post" somewhere on the page.</p>
+<p>Now that I understand the basics behind each of these testing programs, it is just a matter of practice getting to know and understand the intricacies and exceptions.</p>

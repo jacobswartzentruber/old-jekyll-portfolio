@@ -1,0 +1,25 @@
+---
+layout: article
+title: RSpec load times
+date: 2015-04-07 20:13:22.000000000 -05:00
+categories: []
+tags:
+- CPU
+- Slow Load Times
+- Troubleshooting
+status: publish
+type: post
+published: true
+meta:
+  _publicize_pending: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>I wanted to tackle the slow file loading problem I encountered yesterday when trying to run RSpec.  Yesterday, I created a simple blog application which would allow me to practice testing with RSpec, Capybara and Factory Girls.  The application has one resource, Posts, which has title:string, content:text and published:boolean variables.  When I tried running RSpec with this bare-bones setup it took ~50 seconds to load the required files and less than 0.01 seconds to actually run the tests.  Even though I am new to RSpec, I am pretty sure files shouldn't take this long to load.  I originally thought I might have configured the factories wrong in RSpec or RSpec was running some long process before every test, but even after I removed most of the extra configuration, the loading times stayed consistent.</p>
+<p>My next thought was that the virtual machine I am using to run my development environment might be affecting the speed.  I cloned the same blog program on my host computer and the times were still coming in at ~50 secs.  If my host and guest computers are projecting similar times, it most likely isn't the VM.</p>
+<p>I had to go to bed at that point and decided I would try to tackle it the next day.  When I woke up this morning I tried running RSpec again and it averaged approximately 15 seconds per run, a full 35 seconds less than yesterday.  Weird, I hadn't changed anything from last night to this morning.  It then struck me my computer itself might not have the required hardware to run a super quick scan.  Perhaps it was acquiring processes throughout the day or was becoming overworked which led to slower processing times.  I then decided to try it out on my Cloud9 development platform since it runs off its own VM in the cloud.  The Cloud9 application clocked in at ~6 seconds per run, better than the 15 seconds I was clocking on my own computer this morning.</p>
+<p>Now knowing this problem was computer related, I began to experiment with various settings.  I used my RSpec run time as a baseline and opened up the Windows program that allows you to see CPU, Memory and Disk usage.  I defragged my drives, scanned for malware and cleaned up unused programs.  Those three things had minimal effect and the times stayed relatively consistent.</p>
+<p>In the end it turns out my computer was set on a power saver mode which sets an upper limit on the work my CPU can do.  Changing it to a balanced mode freed my CPU from its artificial limitations and allowed it to run to its full capabilities.  I cut the RSpec time in half by changing modes.  My CPU still caps out at 100% while running tests so I imagine if I had a more powerful CPU the tests would run even faster.  As it stands now, I have found the fastest times for my RSpec trials and am willing to work within their limitations.</p>
+<p>There were a number of other configuration details I had to sort out today including fixing problems with my VM's git email configuration and syncing the correct dates with my git commits.  All in all it was a productive day for learning more about my development environment and increasing my knowledge of Linux commands.  I feel confident that tomorrow morning I can dive into RSpec without more secondary problems popping up.  Crossing my fingers...</p>

@@ -1,0 +1,37 @@
+---
+layout: page
+title: World Simulation Project
+date: 2011-09-22 14:29:22.000000000 -05:00
+categories: []
+tags: []
+status: trash
+type: page
+published: false
+meta:
+  _edit_last: '25921218'
+  _wp_page_template: default
+  geo_public: '0'
+  _wp_trash_meta_status: draft
+  _wp_trash_meta_time: '1428595519'
+author:
+  login: jsswart
+  email: jsswart@gmail.com
+  display_name: Jacob Swartzentruber
+  first_name: ''
+  last_name: ''
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>The World Simulation Project is a procedurally generated world creation tool that creates an environment represented by elevation, temperature and precipitation.  Every time the program runs, the generator outputs a completely new map based upon a few key numbers dictating elevation fluctuation, ocean depth, equator position etc.  Changing these numbers changes the <em>type</em> of map created, for example islands or mountains, but if the numbers stay constant the generator will still spit out a completely new map every time.</p>
+<p>The World Simulation Project represents step one in a long sequence of personal projects that will ultimately combine to create an interactive world in which multiple characters roam around the environment, interacting with the landscape and with each other.  The player would control a few characters, a family if you will, and try to increase their fortunes throughout the world or even struggle to keep them alive for that matter.</p>
+<p>Below I have posted a few screenshots from the world generator.  To understand what is going on, the green squares are land and the darker blue is ocean.  The lighter the color, the higher the tile is elevation wise.  Conversely, the darker the tile, the lower it is on the elevation plane.  The light blue circles represent rivers as they cascade downhill following the quickest route available to them.  When the rivers reach a gully and cannot reach the ocean, they create lakes which are represented by the light blue squares.  The lakes fill the gully until the river can finally overflow and again find its way to the ocean.</p>
+<p><a href="http://portfolioswartz.files.wordpress.com/2011/08/world-1a.jpg"><img title="World 1 Elevation" src="assets/world-1a.jpg" alt="" width="500" height="500" /></a></p>
+<p>Below is the corresponding temperature map for the landscape above.  The red represents hot and dark blue represents cold with color values in between representing the entire temperature spectrum.  For this generation, the temperature map acts as if the equator were in the middle of the map.  The farther north or south it gets from the equator, the colder it gets.  Additionally, the higher the landscape is on a certain tile, the colder it will get.  These two factors, latitude and elevation, help dictate the temperature map and unify it with the elevation map above.</p>
+<p><a href="http://portfolioswartz.files.wordpress.com/2011/08/world-1b.jpg"><img title="World 1 Temperature" src="assets/world-1b.jpg" alt="" width="500" height="499" /></a></p>
+<p>Below are a few more landscapes generated with different values to show the scope of the generator.  To view the map, click on the thumbnail for a larger view.</p>
+<p>Landscape 2</p>
+<p><a href="http://portfolioswartz.files.wordpress.com/2011/08/world-2a.jpg"><img title="World 2a" src="assets/world-2a.jpg?w=150" alt="" width="150" height="150" /></a><a href="http://portfolioswartz.files.wordpress.com/2011/08/world-2b.jpg"><img title="World 2b" src="assets/world-2b.jpg?w=150" alt="" width="150" height="150" /></a></p>
+<p>Landscape 3</p>
+<p><a href="http://portfolioswartz.files.wordpress.com/2011/08/world-3a.jpg"><img title="World 3a" src="assets/world-3a.jpg?w=150" alt="" width="150" height="150" /></a><a href="http://portfolioswartz.files.wordpress.com/2011/08/world-3b.jpg"><img title="World 3b" src="assets/world-3b.jpg?w=150" alt="" width="150" height="150" /></a></p>
+<p>Landscape 4</p>
+<p><a href="http://portfolioswartz.files.wordpress.com/2011/08/world-4a.jpg"><img title="World 4a" src="assets/world-4a.jpg?w=150" alt="" width="150" height="150" /></a><a href="http://portfolioswartz.files.wordpress.com/2011/08/world-4b.jpg"><img title="World 4b" src="assets/world-4b.jpg?w=150" alt="" width="150" height="150" /></a></p>

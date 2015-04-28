@@ -1,0 +1,34 @@
+---
+layout: article
+title: Development Environment Rehaul
+date: 2015-03-11 09:43:50.000000000 -05:00
+categories: []
+tags:
+- BitBucket
+- Cloud
+- Cloud9
+- Development Environment
+- Git
+- Heroku
+status: publish
+type: post
+published: true
+meta:
+  _publicize_pending: '1'
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Setting up a virtual machine via Virtual Box and populating it with Vagrant is a lot harder than I had previously anticipated.  I spent about six straight hours yesterday trying to get a virtual machine up and running without any luck.  I got Virtual Box and Vagrant installed but whenever I tried to get a box running I would run into some problem or another.  For awhile, Vagrant could not initialize the ssh path from my guest computer to the host.  I also encountered trouble installing the chef gem.  It said it could not 'build native gem extension.'  I pored over numerous Stack Overflow questions and tried a host of possible solutions.  Nothing seemed to work.  It was pretty frustrating but thankfully I stumbled across a reasonable alternative for my current skill level, a cloud based development environment.</p>
+<p>I decided to install and work with <a title="Cloud9 Cloud Based Development Environment" href="https://c9.io/">Cloud9</a> as a Cloud Based Development Environment.  I can access an Ubuntu machine running on the Cloud9 server through my browser.  The machine even has Ruby, Rails and all the necessary programs installed.  I was only working with it for about two hours yesterday but it seemed to be pretty smooth.  Once I get a feel for developing sites at a higher level I will probably switch back to a local development environment but for now this solution is perfect.</p>
+<p>I decided to start working with Git and understand how that program works.  I eventually settled on using <a title="Bitbucket" href="https://bitbucket.org/">BitBucket</a> over <a title="GitHub" href="https://github.com/">GitHub</a> to host all of my programs.  BitBucket allows you to upload an unlimited number of privately hosted sites with additional charges for public sites.  Alternatively, GitHub allows you to upload an unlimited number of publicly hosted sites but charges for private sites.  Since I am not yet developing projects that are collaborative I figure the private option is a better fit.</p>
+<p>The Git workflow will take some time to get used to but seems fairly straightforward.  Projects registered in Git are stored in repositories.  You can propose changes to the repository by 'Adding' files or updates.  These additions can then be 'committed' to a temporary Head file which are not yet applied to your master file.  To send your changes from the Head file to the master file, you execute the 'push' command.  Another key feature of Git is the ability to 'branch' different versions of the code.  If you want to work on a feature and are scared of breaking the master code, you can create a branch which copies the master branch.  You can commit to this branch and verify it is working correctly before you 'merge' it with the master branch.  A great, concise overview of git workflow is <a href="http://rogerdudler.github.io/git-guide/">"Git - The simple guide."</a></p>
+<p><a title="Heroku" href="http://www.heroku.com">Heroku</a> allows you to host the sites you create on GitHub or BitBucket.  In fact, your sites HAVE to have version control attached to them to even be hosted on Heroku.  All you have to do is type 'git push heroku master' to push your BitBucket project to Heroku.  Your Heroku account creates a unique url for your project that you can use to view your project on the web!</p>
+<p>With the basics of Heroku and Git under my belt, I am excited to practice and become more familiar with the syntax.  I feel more like a developer now that my projects are actually hosted on the web.  After the disastrous start to virtual machines, it is exciting to be making some progress on core development principles.</p>
