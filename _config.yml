@@ -1,9 +1,9 @@
 # Site wide configuration
 
-title: A Curious Crossbreed
+title: Jacob Swartzentruber
 description: Navigating the wild waters of web app development
 logo: logo-large.png # 120x120 px default image used for Twitter summary card
-teaser: default-teaser.jpg
+teaser: inset-default-teaser.png
 locale: 
 #url: http://localhost:4000
 
