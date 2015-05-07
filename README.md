@@ -1,16 +1,3 @@
-# Skinny Bones Jekyll Starter
+# Jacob Swartzentruber Blog and Portfolio
 
-Just a little something I'm using to jump start a site refresh. I like to think of it as a starter for building your own Jekyll site. I purposely keep the styling minimal and bare to make it easier to add your own flare and markup.
-
-I'm currently using a variation of it on my personal website [Made Mistakes](http://mademistakes.com) with some modifications. To learn more about how to use the theme and install it check out the [Skinny Bones demo](http://mmistakes.github.io/skinny-bones-jekyll/) (*work in progress*).
-
-![screenshot of Skinny Bones](http://mmistakes.github.io/skinny-bones-jekyll/images/skinny-bones-theme-feature.jpg)
-
----
-
-## Notable Features
-
-* Stylesheet built using Sass. *Requires Jekyll 2.x*
-* Data files for easier customization of the site navigation/footer and for supporting multiple authors.
-* Optional Disqus comments, table of contents, social sharing links, and Google AdSense ads.
-* And more.
+A Jekyll generated blog where I can record my progress learning Ruby on Rails and web application development.  Additionally, this blog contains a few pages showcasing the various projects I am working on.  Whether you came here to learn about some of my projects or listen to my ramblings, I hope you find what you are looking for.  If you have any questions or comments, please feel free to send me a message through GitHub or email me at jsswart@gmail.com.
