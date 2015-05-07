@@ -1,3 +1,3 @@
 # Jacob Swartzentruber Blog and Portfolio
 
-A Jekyll generated blog where I can record my progress learning Ruby on Rails and web application development.  Additionally, this blog contains a few pages showcasing the various projects I am working on.  Whether you came here to learn about some of my projects or listen to my ramblings, I hope you find what you are looking for.  If you have any questions or comments, please feel free to send me a message through GitHub or email me at jsswart@gmail.com.
+A Jekyll generated blog where I can record my progress learning Ruby on Rails and web application development.  Additionally, this blog contains a few pages showcasing various projects I am working on.  Whether you came here to learn about some of my projects or listen to my ramblings, I hope you find what you are looking for.  If you have any questions or comments, please feel free to send me a message through GitHub or email me at jsswart@gmail.com.
