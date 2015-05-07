@@ -2,19 +2,14 @@
 layout: article
 title: RSpec load times
 date: 2015-04-07 20:13:22.000000000 -05:00
-categories: []
-tags:
-- CPU
-- Slow Load Times
-- Troubleshooting
-status: publish
-type: post
-published: true
-meta:
-  _publicize_pending: '1'
-  _rest_api_published: '1'
-  _rest_api_client_id: "-1"
-excerpt: 
+modified:
+categories: 
+excerpt:
+tags: []
+image:
+  feature:
+  teaser: rspec-teaser.jpg
+  thumb: 
 ---
 <p>I wanted to tackle the slow file loading problem I encountered yesterday when trying to run RSpec.  Yesterday, I created a simple blog application which would allow me to practice testing with RSpec, Capybara and Factory Girls.  The application has one resource, Posts, which has title:string, content:text and published:boolean variables.  When I tried running RSpec with this bare-bones setup it took ~50 seconds to load the required files and less than 0.01 seconds to actually run the tests.  Even though I am new to RSpec, I am pretty sure files shouldn't take this long to load.  I originally thought I might have configured the factories wrong in RSpec or RSpec was running some long process before every test, but even after I removed most of the extra configuration, the loading times stayed consistent.</p>
 <p>My next thought was that the virtual machine I am using to run my development environment might be affecting the speed.  I cloned the same blog program on my host computer and the times were still coming in at ~50 secs.  If my host and guest computers are projecting similar times, it most likely isn't the VM.</p>

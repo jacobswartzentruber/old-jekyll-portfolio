@@ -7,7 +7,7 @@ excerpt:
 tags: []
 image:
   feature:
-  teaser:
+  teaser: climbON-teaser.jpg
   thumb:
 date: 2015-05-06T09:43:02-05:00
 ---

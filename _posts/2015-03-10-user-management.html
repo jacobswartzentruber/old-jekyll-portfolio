@@ -2,29 +2,14 @@
 layout: article
 title: User Management
 date: 2015-03-10 14:16:49.000000000 -05:00
-categories: []
-tags:
-- Authentication
-- Authorization
-- Cookies
-- Faker
-- Sublime Text
-- Twitter Clone
-- Will_Paginate
-status: publish
-type: post
-published: true
-meta:
-  _wpas_skip_facebook: '1'
-  _wpas_skip_google_plus: '1'
-  _wpas_skip_twitter: '1'
-  _wpas_skip_linkedin: '1'
-  _wpas_skip_tumblr: '1'
-  _wpas_skip_path: '1'
-  _publicize_pending: '1'
-  _rest_api_published: '1'
-  _rest_api_client_id: "-1"
+modified:
+categories: 
 excerpt:
+tags: []
+image:
+  feature:
+  teaser: twitter-clone-teaser.jpg
+  thumb: 
 ---
 <p>Over the last few days I have been working on completing and trying to understand User Management.  I have been inundated with so much new information it is overwhelming but intoxicating at the same time.  I will probably have to dedicate an entire blog post to what I have learned when it comes to temporary vs. permanent user authentication.  To hold you over until I write that blog post, I will have to summarize.  In short, temporary user authorization is handled through the use of sessions.  A variable user_id is stored in this session when a user logs in.  The user_id variable does not need to be encrypted because sessions are automatically encrypted when created.  When a user logs out or exits the browser, the user_id is deleted and the browser no longer holds any reference to a user.</p>
 <p>In contrast, if a user needs to be remembered across sessions, things get a bit more complicated.  Permanent sessions are stored in 'cookies.'  These cookies are stored in the browser and hold data which can be accessed by websites when needed.  For permanent user authorization on a computer, the variable user_id is stored on a permanent signed cookie.  This cookie is not encrypted however and is susceptible to releasing its information to a malicious party.  As such, a second cookie is created for each session.  This cookie holds a remember_token that is passed through a hash encryption.  The remember_token is also stored on the user model.  For a malicious party to sign in to a user account, they would need the user_id cookie as well as access to the remember_token cookie.  Since the remember_token is generated every session, this makes hacking extremely difficult.</p>

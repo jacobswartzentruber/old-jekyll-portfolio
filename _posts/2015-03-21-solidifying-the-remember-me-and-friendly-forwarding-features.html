@@ -2,25 +2,14 @@
 layout: article
 title: Solidifying the Remember Me and Friendly Forwarding features
 date: 2015-03-21 12:37:56.000000000 -05:00
-categories: []
-tags:
-- bugs
-- friendly forwarding
-- remember me
-status: publish
-type: post
-published: true
-meta:
-  _wpas_skip_facebook: '1'
-  _wpas_skip_google_plus: '1'
-  _wpas_skip_twitter: '1'
-  _wpas_skip_linkedin: '1'
-  _wpas_skip_tumblr: '1'
-  _wpas_skip_path: '1'
-  _publicize_pending: '1'
-  _rest_api_published: '1'
-  _rest_api_client_id: "-1"
+modified:
+categories: 
 excerpt:
+tags: []
+image:
+  feature:
+  teaser: climbON-teaser.jpg
+  thumb:
 ---
 <p>When I was creating the "remember me" option for logging in, I encountered a bug that helped me understand the intricacies of accessing permanent cookies.  The bug happened when I logged in and attempted to remember a user.  Permanent cookies were successfully created that stored user_id and a remember token, however the site would still display a "Log In" button as if it could not recognize the user.  It turns out, after about two hours of debugging, I was storing the digest of the remember token in the permanent cookie as opposed to the remember token itself.</p>
 <p>During this debugging, however, I was forced to go through the code concerning session login ten times over.  Before this bug, I wasn't entirely sure how a page accessed the permanent cookies every time a remembered user visited the site.  As far as I could tell, the tutorial on user login hadn't included specific instructions to search for permanent cookie data.  I eventually found the trigger in code included in the header view.  The header view calls a method logged_in? which returns true if the site has a current user.  The logged_in? method utilizes another method, current_user, asking if it returns nil.  This is accomplished through the call, !current_user.nil?  Even though the logged_in? method is calling a boolean return argument on current_user, the entire current_user method is still run.  It is within current_user that the permanent cookies are accessed and the user is logged in if they haven't been already.  In short, the current_user method queries the permanent cookies through every browser call because it is included in the header presented on every page.  A simple yet elegant solution now that I know how it works.</p>

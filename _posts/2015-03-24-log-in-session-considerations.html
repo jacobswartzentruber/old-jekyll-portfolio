@@ -2,20 +2,14 @@
 layout: article
 title: Signup data modeling
 date: 2015-03-24 19:50:20.000000000 -05:00
-categories: []
-tags:
-- Associations
-- Authorization
-- ClimbON
-- Validation
-status: publish
-type: post
-published: true
-meta:
-  _publicize_pending: '1'
-  _rest_api_published: '1'
-  _rest_api_client_id: "-1"
+modified:
+categories: 
 excerpt:
+tags: []
+image:
+  feature:
+  teaser: climbON-teaser.jpg
+  thumb:
 ---
 <p>I have discovered it is easy to get stuck making data modeling decisions with the current amount of Rails knowledge I possess.  My understanding of how deeper Rails methods function is limited to generalized forms even if I am slowly correcting this as the days pass by.  When confronted with a problem, I visualize numerous solutions but lack the experience to determine which one is most optimal.  After fighting this problem for most of the day, I finally came to the understanding that when confronted with a problem like this, I simply need to strike out in one direction and make the best of that option.  How can I learn if I sit around and debate the various merits of procedures I only know about theoretically?  I will learn by writing and making mistakes.  I realize this isn't what professionals do but through the learning process, I feel this is my best option.  On the plus side, I will acquire disproportionate amounts of experience refactoring code and writing tests when I tackle unknown problems.</p>
 <p>The data modeling conundrum I encountered today posed the question of where I would register new Climbers and Gyms.  They share the same User model so could I push both signups through a user/new page?  Then again, the User model only holds log-in information and doesn't take into account differences between profiles.  Additionally, since users belong to profiles, I should technically be creating users through their respective profiles.  I eventually decided to send each profile signup through their respective 'new' page and only use user information for session access.  My reasoning for this is that Climbers and Gyms have the potential to become radically different entities as features continue to be implemented.  I separated their database tables using multiple table inheritance for a reason.  Even though both models are similar at this stage in development, I should respect my earlier decision and use the more flexible option.  With this solution in mind, I created the two new profile sign-in pages and verified they correctly create both types of users.</p>

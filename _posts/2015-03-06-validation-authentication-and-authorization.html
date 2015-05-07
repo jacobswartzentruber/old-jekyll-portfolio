@@ -2,28 +2,14 @@
 layout: article
 title: Validation, Authentication and Authorization
 date: 2015-03-06 18:43:19.000000000 -06:00
-categories: []
-tags:
-- Authentication
-- Authorization
-- Regular Expressions
-- Rubular
-- Twitter Clone
-- Validation
-status: publish
-type: post
-published: true
-meta:
-  _rest_api_client_id: "-1"
-  _wpas_skip_path: '1'
-  _wpas_skip_tumblr: '1'
-  _wpas_skip_twitter: '1'
-  _wpas_skip_linkedin: '1'
-  _wpas_skip_facebook: '1'
-  _wpas_skip_google_plus: '1'
-  _publicize_pending: '1'
-  _rest_api_published: '1'
+modified:
+categories: 
 excerpt:
+tags: []
+image:
+  feature:
+  teaser: twitter-clone-teaser.jpg
+  thumb: 
 ---
 <p>It turns out, going through the Twitter Clone code I had written so far and incorporating partials only took a few minutes.  Its pretty easy when there are only a few pages of code to clean up.  Since this was going to be one of the main things I wanted to get done today, I instead dove straight into developing user authorization and authentication.</p>
 <p>One of the first decisions I had to address was whether to use a security gem or create my own form of authentication system.  I was leaning toward using the Devise gem but finally decided against it.  The entire reason I am writing this program is to learn how to do things myself.  Why take shortcuts and miss learning important basic features, features that Devise utilizes and depends upon?  While it is a lot more difficult to program my own authentication system, I decided to go for it after all since this is a learning experience.</p>
