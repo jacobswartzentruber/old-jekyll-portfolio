@@ -8,6 +8,17 @@ image:
 
 Quest is a goal tracking web application built with Ruby on Rails.  Users create and manage "quests", designated lengths of time a user expects to pursue specific goals in his/her life.  The Quest application tracks current progress towards that goal and previous progress records, assigning ranks based on total time accumulated. Future plans for this application include a larger emphasis on gamification, making daily goal tracking more exciting.
 
+**GitHub Repository:** [https://github.com/jacobswartzentruber/quest_app](https://github.com/jacobswartzentruber/quest_app)
+
+**Heroku Production Server:** [https://serene-atoll-7750.herokuapp.com/](https://serene-atoll-7750.herokuapp.com/)
+
+**Sandbox account for Heroku**
+
+* User email: "sandbox@example.com"
+* Password: "password"
+* Or simply create your own account to explore!
+
+
 ###Specifications
 **State of Application:** Backend architecture complete, still needs front-end design and theme
 
@@ -15,11 +26,6 @@ Quest is a goal tracking web application built with Ruby on Rails.  Users create
 
 **Gems:** Bootstrap, Devise, Factory Girl, RSpec, Capybara
 
-**GitHub Repository:** [https://github.com/jacobswartzentruber/quest_app](https://github.com/jacobswartzentruber/quest_app)
-
-**Heroku Production Server:** [https://serene-atoll-7750.herokuapp.com/](https://serene-atoll-7750.herokuapp.com/)
-
-* Sandbox Account:
 
 ###Features
 

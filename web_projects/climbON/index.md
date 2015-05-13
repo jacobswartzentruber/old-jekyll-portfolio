@@ -8,6 +8,17 @@ image:
 
 ClimbON is a Ruby on Rails web application allowing climbing gyms to track, manage and promote routes set on their walls.  Individual climbers registered through ClimbON can browse routes set by gyms, track their progress on specified routes and share their climbing history with other climbers.  As individual climbers work on routes and develop projects, gyms are able to access and aggregate this data to determine which walls are most popular, calculate the experience differential of their clientele and easily gather feedback.
 
+**GitHub Repository:** [https://github.com/jacobswartzentruber/climbing_app](https://github.com/jacobswartzentruber/climbing_app)
+
+**Heroku Production Server:** [https://glacial-bastion-8007.herokuapp.com/](https://glacial-bastion-8007.herokuapp.com/)
+
+**Sandbox Accounts for Heroku:**
+
+* User email: "sandboxClimber@example.com" or "sandboxGym@example.com"
+* Password: "password"
+* Or simply create your own account to explore!
+
+
 ###Specifications
 **State of Application:** This is a project in development.  Certain features are accessible, however this isn't representative of the final product.  I am currently focusing on back-end architecture at the moment; hence, the generic bootstrap feel.  Check back every few days for updates!
 
@@ -15,11 +26,6 @@ ClimbON is a Ruby on Rails web application allowing climbing gyms to track, mana
 
 **Gems:** Bootstrap, Faker, Will-paginate
 
-**GitHub Repository:** [https://github.com/jacobswartzentruber/climbing_app](https://github.com/jacobswartzentruber/climbing_app)
-
-**Heroku Production Server:** [https://glacial-bastion-8007.herokuapp.com/](https://glacial-bastion-8007.herokuapp.com/)
-
-* Sandbox Account Information:
 
 ###Features
 
