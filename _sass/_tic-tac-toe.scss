@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Tic-Tac-Toe Game highlighting and formatting
+   ========================================================================== */
+
+.tic-tac-toe{
+	width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  margin: auto; 
+	#status{
+		text-align: center;
+	}
+	.cell{
+		display: inline-block;
+		height: 100px;
+		width: 100px;
+		margin-bottom: 5px;
+		border: 2px solid black;
+	}
+	.Red{
+		background-color: red;
+	}
+	.Green{
+		background-color: green;
+	}
+}
