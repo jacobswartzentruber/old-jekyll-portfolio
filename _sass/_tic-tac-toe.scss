@@ -3,10 +3,12 @@
    ========================================================================== */
 
 .tic-tac-toe{
-	width: -moz-fit-content;
-  width: -webkit-fit-content;
-  width: fit-content;
-  margin: auto; 
+	.board{
+		width: -moz-fit-content;
+	  width: -webkit-fit-content;
+	  width: fit-content;
+	  margin: auto; 
+	}
 	#status{
 		text-align: center;
 	}
