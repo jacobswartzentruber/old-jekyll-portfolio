@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Coin Collector Game highlighting and formatting
+   ========================================================================== */
+
+#coin-collector{
+	width: 1000px;
+	.instructions{
+		text-align: center;
+	}
+	#canvas{
+		border: 1px solid gray;
+	}
+}
