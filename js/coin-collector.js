@@ -10,23 +10,27 @@ var canvas = document.getElementById("canvas"),
     width = 1000,
     height = 200,
     playing = true,
-    currentFrame = 0,
+    newAnimation = true,
     coinsCollected = 0,
     coinSpawnChance = 0.01,
     levelSpeed = 1,
     levelSpeedUp = 0.001,
     maxSpeedPercent = 0.73,
     player = {
+    	img : new Image(),
 		  x : width/2,
-		  y : height - 5,
-		  width : 10,
-		  height : 10,
+		  y : height - 20,
+		  width : 44,	//Sets the hitbox width for the character
+		  height : 35,	//Sets the hitbox height for the character
 		  speed: 4,
 		  velX: 0,
 		  velY: 0,
 		  jumping : false,
 		  doubleJump: false,
-		  grounded: false
+		  grounded: false,
+		  action: "runningRight",
+		  dirFacing: "R",
+		  frame : 0
 		},
 		keys = [],
 		friction = 0.8,
@@ -35,14 +39,33 @@ var canvas = document.getElementById("canvas"),
 		minBoxHeight = 10,
 		variableBoxHeight = minBoxHeight,
 		maxBoxWidth = 100,
-		minBoxWidth = 10,
+		minBoxWidth = player.width,
 		boxBuffer = 100,		//How far boxes go underneath canvas
 		minStepSize = 2;
+
+var animationKey = {
+	//Each animation hash holds x position, y position, spriteSheet width, spriteSheet height, number of frames and delay between frames
+	coin: {spinning:{x:0,y:0,width:72,height:14,numFrames:6,frameDelay:6}},
+	taylor: {eating:{x:0,y:0,width:80,height:25,numFrames:4,frameDelay:6}},
+	fox: {
+		runningRight:{x:0,y:0,width:176,height:35,numFrames:4,frameDelay:7},
+		runningLeft: {x:0,y:35,width:176,height:35,numFrames:4,frameDelay:7},
+		jumpingRight: {x:0,y:70,width:44,height:35,numFrames:1,frameDelay:6},
+		jumpingLeft: {x:44,y:70,width:44,height:35,numFrames:1,frameDelay:6},
+		jumpingIdleRight: {x:88,y:0,width:44,height:35,numFrames:1,frameDelay:6},
+		jumpingIdleLeft: {x:44,y:35,width:44,height:35,numFrames:1,frameDelay:6},
+		fallingRight: {x:132,y:0,width:44,height:35,numFrames:1,frameDelay:6},
+		fallingLeft: {x:0,y:35,width:44,height:35,numFrames:1,frameDelay:6},
+		idleRight: {x:0,y:0,width:44,height:35,numFrames:1,frameDelay:6},
+		idleLeft: {x:132,y:35,width:44,height:35,numFrames:1,frameDelay:6}
+	}
+}
 
 canvas.width = width;
 canvas.height = height;
 
-coinFrame = 0;
+player.img.src = "/assets/fox_sprite.png";
+
 coinImg = new Image();
 coinImg.src = "/assets/coin_sprite.png";
 
@@ -87,9 +110,9 @@ function update(){
 	}
 	if (keys[39]) {
 		// right arrow
-		if (player.velX < player.speed) {                         
-		   player.velX++;                  
-		}          
+		if (player.velX < player.speed) {
+		  player.velX++;                  
+		}   
 	}          
 	if (keys[37]) {                 
 		// left arrow                  
@@ -119,7 +142,8 @@ function update(){
 			x: width,
 			y: Math.random()*(boxes[boxes.length-1].y - coinImg.height),
 			width: 12,
-			height: coinImg.height
+			height: coinImg.height,
+			frame: 0
 		})
 	}
 
@@ -181,9 +205,33 @@ function update(){
   player.x += player.velX;
 	player.y += player.velY;
 
+	//Update which way player is facing
+	if(player.velX > 0){player.dirFacing = "R";}
+	else if(player.velX < 0){player.dirFacing = "L";}
+
+	//Update player animation depending on context
+	if(player.grounded){
+		if(player.velX < -0.5){player.action = "runningLeft";}
+		else if(player.velX > 0.5){player.action = "runningRight";}
+		else{
+			if(player.dirFacing === "R"){player.action = "idleRight";}
+			else{player.action = "idleLeft";}
+		}
+	}
+	else{
+		if(player.dirFacing === "R"){
+			if(player.velY < -1){player.action = "jumpingRight";}
+			else if(player.velY > 1){player.action = "fallingRight";}
+			else{player.action = "jumpingIdleRight";}
+		}else{
+			if(player.velY < -1){player.action = "jumpingLeft";}
+			else if(player.velY > 1.){player.action = "fallingLeft";}
+			else{player.action = "jumpingIdleLeft";}
+		}
+	}
+
 	//Draw player
-  ctx.fillStyle = "red";
-  ctx.fillRect(player.x, player.y, player.width, player.height);
+	drawAnimationFrame(player, "fox", player.action, player.img, ctx);
 
   //Draw the terrain
   ctx.fillStyle = "#334C33";
@@ -229,12 +277,8 @@ function update(){
 			coins.splice(i,1);
 			i -= 1;
 		}else{
-			ctx.drawImage(coinImg, coinFrame*2+coinFrame*11, 0, 12, 14, coins[i].x, coins[i].y, 12, 14);
+			drawAnimationFrame(coins[i], "coin", "spinning", coinImg, ctx);
 		}
-	}
-	if(currentFrame%6 === 0){
-		coinFrame += 1;
-		if(coinFrame > 4){coinFrame = 0;}
 	}
 
 	//Draw foreground
@@ -250,7 +294,7 @@ function update(){
 	}else{
 		ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
 		ctx.fillRect(0, 0, width, height);
-		ctx.fillStyle = "grey";
+		ctx.fillStyle = "white";
 		ctx.font = "25px Arial";
 		ctx.textAlign = "center";
 		ctx.fillText("Game Over",width/2,80);
@@ -270,7 +314,6 @@ function update(){
   
   // run through the loop again
   if(playing){
-  	currentFrame += 1;
   	requestAnimationFrame(update);
   }
 }
@@ -278,18 +321,20 @@ function update(){
 function resetLevel(){
 	coinsCollected = 0;
   levelSpeed = 1;
-  currentFrame = 0;
   player = {
+	  img : player.img,
 	  x : width/2,
-	  y : height - 5,
-	  width : 10,
-	  height : 10,
+	  y : height - 20,
+	  width : 30,	//Sets the hitbox width for the character
+	  height : 35,	//Sets the hitbox height for the character
 	  speed: 4,
 	  velX: 0,
 	  velY: 0,
 	  jumping : false,
 	  doubleJump: false,
-	  grounded: false
+	  grounded: false,
+	  action: "running",
+	  frame : 0
 	};
 	variableBoxHeight = minBoxHeight,
 	background[0].x = 0;
@@ -297,6 +342,18 @@ function resetLevel(){
 	background[2].x = 0;
 	boxes = [{x: 0, y: height - minBoxHeight, width: width, height: minBoxHeight + boxBuffer}];
 	coins = [];
+}
+
+//Function to get correct animation frame for a specific object doing a specific action
+function drawAnimationFrame(object, key, action, spriteSheet, canvas){
+	var aKey = animationKey[key][action];
+	var frameWidth = aKey.width/aKey.numFrames;
+	if(newAnimation || object.frame >= aKey.numFrames*aKey.frameDelay){
+		object.frame = 0;
+		newAnimation = false;
+	}
+	canvas.drawImage(spriteSheet, aKey.x+Math.floor(object.frame/aKey.frameDelay)*frameWidth, aKey.y, frameWidth, aKey.height, object.x, object.y, frameWidth, aKey.height);
+	object.frame += 1;
 }
 
 function colCheck(shapeA, shapeB) {
