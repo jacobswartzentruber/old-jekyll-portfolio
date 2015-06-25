@@ -325,7 +325,7 @@ function resetLevel(){
 	  img : player.img,
 	  x : width/2,
 	  y : height - 20,
-	  width : 30,	//Sets the hitbox width for the character
+	  width : 44,	//Sets the hitbox width for the character
 	  height : 35,	//Sets the hitbox height for the character
 	  speed: 4,
 	  velX: 0,
