@@ -10,7 +10,6 @@ var canvas = document.getElementById("canvas"),
     width = 1000,
     height = 200,
     playing = true,
-    newAnimation = true,
     coinsCollected = 0,
     coinSpawnChance = 0.01,
     levelSpeed = 1,
@@ -20,15 +19,15 @@ var canvas = document.getElementById("canvas"),
     	img : new Image(),
 		  x : width/2,
 		  y : height - 20,
-		  width : 44,	//Sets the hitbox width for the character
-		  height : 35,	//Sets the hitbox height for the character
+		  width : 44,
+		  height : 35,
 		  speed: 4,
 		  velX: 0,
 		  velY: 0,
 		  jumping : false,
 		  doubleJump: false,
 		  grounded: false,
-		  action: "runningRight",
+		  action: "idleRight",
 		  dirFacing: "R",
 		  frame : 0
 		},
@@ -41,7 +40,8 @@ var canvas = document.getElementById("canvas"),
 		maxBoxWidth = 100,
 		minBoxWidth = player.width,
 		boxBuffer = 100,		//How far boxes go underneath canvas
-		minStepSize = 2;
+		minStepSize = 2,
+		numImagesLoaded = 0;
 
 var animationKey = {
 	//Each animation hash holds x position, y position, spriteSheet width, spriteSheet height, number of frames and delay between frames
@@ -53,11 +53,11 @@ var animationKey = {
 		jumpingRight: {x:0,y:70,width:44,height:35,numFrames:1,frameDelay:6},
 		jumpingLeft: {x:44,y:70,width:44,height:35,numFrames:1,frameDelay:6},
 		jumpingIdleRight: {x:88,y:0,width:44,height:35,numFrames:1,frameDelay:6},
-		jumpingIdleLeft: {x:44,y:35,width:44,height:35,numFrames:1,frameDelay:6},
+		jumpingIdleLeft: {x:88,y:35,width:44,height:35,numFrames:1,frameDelay:6},
 		fallingRight: {x:132,y:0,width:44,height:35,numFrames:1,frameDelay:6},
-		fallingLeft: {x:0,y:35,width:44,height:35,numFrames:1,frameDelay:6},
-		idleRight: {x:0,y:0,width:44,height:35,numFrames:1,frameDelay:6},
-		idleLeft: {x:132,y:35,width:44,height:35,numFrames:1,frameDelay:6}
+		fallingLeft: {x:132,y:35,width:44,height:35,numFrames:1,frameDelay:6},
+		idleRight: {x:0,y:105,width:352,height:35,numFrames:8,frameDelay:6},
+		idleLeft: {x:0,y:140,width:352,height:35,numFrames:8,frameDelay:6}
 	}
 }
 
@@ -65,9 +65,12 @@ canvas.width = width;
 canvas.height = height;
 
 player.img.src = "/assets/fox_sprite.png";
+player.img.onload = updateLoading;
+console.log(player.height + " " + player.width);
 
 coinImg = new Image();
 coinImg.src = "/assets/coin_sprite.png";
+coinImg.onload = updateLoading;
 
 //Adding background images to the level
 var background = [];
@@ -78,15 +81,20 @@ background.push(
 	{x: 0, y: 0, img: new Image()}
 );
 background[0].img.src = "/assets/sky.png";
+background[0].img.onload = updateLoading;
 background[1].img.src = "/assets/mountains.png";
+background[1].img.onload = updateLoading;
 background[2].img.src = "/assets/treeline.png";
+background[2].img.onload = updateLoading;
 background[3].img.src = "/assets/terrain.jpg";
+background[3].img.onload = updateLoading;
 
 var foreground = {x: 0, y: 0, img: new Image()};
 foreground.img.src = "";
 
 var grass = new Image();
 grass.src = "/assets/grass.png";
+grass.onload = updateLoading;
 
 //Adding terrain to the level
 var boxes = [{x: 0, y: height - minBoxHeight, width: width, height: minBoxHeight + boxBuffer}];
@@ -94,6 +102,16 @@ var boxes = [{x: 0, y: height - minBoxHeight, width: width, height: minBoxHeight
 //Adding coins to the level
 var coins = [];
  
+//Update the loading screen progress bar
+function updateLoading(){
+  numImagesLoaded += 1;
+  $('#loadingBar').css("width",(numImagesLoaded/7)*700);
+  if(numImagesLoaded === 7){
+    $('#game').css("display","block");
+		$('#loadingScreen').css("display","none");
+  } 
+}
+
 // The update function which calculates each animation frame
 function update(){
 	// check keys and update player velocity accordingly
@@ -210,6 +228,7 @@ function update(){
 	else if(player.velX < 0){player.dirFacing = "L";}
 
 	//Update player animation depending on context
+	var oldAction = player.action;
 	if(player.grounded){
 		if(player.velX < -0.5){player.action = "runningLeft";}
 		else if(player.velX > 0.5){player.action = "runningRight";}
@@ -229,6 +248,9 @@ function update(){
 			else{player.action = "jumpingIdleLeft";}
 		}
 	}
+
+	//If new action is different than previous frame, set player.frame to zero
+	if(player.action !== oldAction){player.frame = 0;}
 
 	//Draw player
 	drawAnimationFrame(player, "fox", player.action, player.img, ctx);
@@ -325,18 +347,19 @@ function resetLevel(){
 	  img : player.img,
 	  x : width/2,
 	  y : height - 20,
-	  width : 44,	//Sets the hitbox width for the character
-	  height : 35,	//Sets the hitbox height for the character
+	  width : 44,
+	  height : 35,
 	  speed: 4,
 	  velX: 0,
 	  velY: 0,
 	  jumping : false,
 	  doubleJump: false,
 	  grounded: false,
-	  action: "running",
+	  action: "idleRight",
+	  dirFacing: "R",
 	  frame : 0
 	};
-	variableBoxHeight = minBoxHeight,
+	variableBoxHeight = minBoxHeight;
 	background[0].x = 0;
 	background[1].x = 0;
 	background[2].x = 0;
@@ -348,9 +371,8 @@ function resetLevel(){
 function drawAnimationFrame(object, key, action, spriteSheet, canvas){
 	var aKey = animationKey[key][action];
 	var frameWidth = aKey.width/aKey.numFrames;
-	if(newAnimation || object.frame >= aKey.numFrames*aKey.frameDelay){
+	if(object.frame >= aKey.numFrames*aKey.frameDelay){
 		object.frame = 0;
-		newAnimation = false;
 	}
 	canvas.drawImage(spriteSheet, aKey.x+Math.floor(object.frame/aKey.frameDelay)*frameWidth, aKey.y, frameWidth, aKey.height, object.x, object.y, frameWidth, aKey.height);
 	object.frame += 1;
@@ -406,6 +428,6 @@ $('body').keyup(function(key) {
 });
 
 //Call update() when document has finished loading to start animation
-$(document).ready(function(){
+$(window).load(function(){
 	update();
 });
