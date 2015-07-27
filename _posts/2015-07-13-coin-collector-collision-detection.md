@@ -75,15 +75,15 @@ The [Somethinghitme article](http://www.somethinghitme.com/2013/04/16/creating-a
 * First, calculate the half-width of both character and object and add them together.  This gives us the minimum length between our character and obstacle that exists without the two objects colliding.
 
 {%highlight javascript%}
-var hWidths = (player.width / 2) + (obstacle.width / 2)
-var hHeights = (player.height / 2) + (obstacle.height / 2)
+var hWidths = (player.width / 2) + (obstacle.width / 2);
+var hHeights = (player.height / 2) + (obstacle.height / 2);
 {%endhighlight%}
 
 * Second, calculate the distance between the center of our character and the center of the object.
 
 {%highlight javascript%}
-var vX = (character.x + (character.width / 2)) - (obstacle.x + (obstacle.width / 2)),
-var vY = (character.y + (character.height / 2)) - (obstacle.y + (obstacle.height / 2)),
+var vX = (character.x + (character.width / 2)) - (obstacle.x + (obstacle.width / 2));
+var vY = (character.y + (character.height / 2)) - (obstacle.y + (obstacle.height / 2));
 {%endhighlight%}
 
 * Third, if the distance between the center of both objects in both the X and Y axes are less than their respective half-widths, the two objects are colliding.  If they are indeed colliding, it is possible to determine which side of the object the character is colliding with by analyzing the difference between the half-widths and center-distances.
