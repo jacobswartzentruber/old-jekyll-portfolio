@@ -1,0 +1,32 @@
+#map-generation{
+	background-color: #D9DCE1;
+	padding: 5px;
+	border-radius: 3px;
+	#canvas{
+		border: 1px solid gray;
+		display: inline-block;
+		width: 49%;
+	}
+	#control-panel{
+		display: inline-block;
+		width: 50%;
+		vertical-align:top;
+	}
+	#view-toolbar{
+		margin: 5px 0px;
+	}
+	.toolbar-button{
+		display: inline-block;
+	}
+	#new-map{
+		margin: 5px 0px;
+		display: inline-block;
+	}
+	#create-map{
+		margin: 5px 0px;
+		display: inline-block;
+	}
+	.slider{
+		margin: 5px 0px;
+	}
+}
