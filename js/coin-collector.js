@@ -415,6 +415,7 @@ function colCheck(shapeA, shapeB) {
 
 //Assign click handlers to body element and adjust "key" booleans accordingly
 $('body').keydown(function(key) {
+	key.preventDefault();
 	keys[key.which] = true;
 	if(key.which === 13 && !playing){
 		playing = true; 
