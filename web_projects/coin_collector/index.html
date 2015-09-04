@@ -9,11 +9,20 @@ image:
 <div id="coin-collector">
   <div id="game">
     <canvas id="canvas"></canvas>
-    <p class="instructions">Use the arrow keys to move.  Press up or spacebar to jump</p>
-    <p class="instructions">After the apex of your jump, press up or spacebar again to perform a double jump!</p>
   </div>
   <div id="loadingScreen">
     <div id="loadingBar"></div>
     <div id="loadingTitle">LOADING</div>
   </div>
+  <p class="instructions">Use the arrow keys to move.  Press up or spacebar to jump</p>
+  <p class="instructions">After the apex of your jump, press up or spacebar again to perform a double jump!</p>
 </div>
+
+<h3>Development</h3>
+<p>If you are interested in learning about the development of Coin Collector, I wrote a four-part series on my blog describing various aspects of the game.</p>
+<ul>
+  <li><a href="{{site.url}}/coin-collector-architecture/"><strong>Part 1 - Architecture:</strong></a> This post describes how I constructed the underlying structure of Coin Collector.  It goes into detail about why gameplay loops and browser architecture are fundamentally different and how I went about solving this problem.</li>
+  <li><a href="{{site.url}}/coin-collector-terrain-generation/"><strong>Part 2 - Terrain Generation:</strong></a> I wanted this game to have procedurally generated terrain that would create a unique landscape for every playthrough.  This post talks about how the landscape is constructed and what restrictions are in place to create a challenging yet traversable landscape.</li>
+  <li><a href="{{site.url}}/coin-collector-collision-detection/"><strong>Part 3 - Collision Detection:</strong></a> What would this game be without a character jumping around and interacting with the environment?  I take some time here to explain how the character and environment are represented within the code and how the game calculates collisions between the two.</li>
+  <li><a href="{{site.url}}/coin-collector-animations/"><strong>Part 4 - Animations:</strong></a> Animations provide those final details that make a game come to life!  This post delves into hit boxes vs. animation images and how the game state determines which animation frame needs to play at that specific moment in time.</li>
+</ul>
