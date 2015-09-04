@@ -12,7 +12,10 @@ image:
 <h3>Interactive Javascript Implementation</h3>
 <p>Go ahead and make a few maps with the Javascript implementation of the map generation software below!  The Javascript implementation utilizes the same algorithms as the original program developed in Java and creates similiar maps.  The Javascript implementation below does not yet contain vegetation population but makes up for it by allowing the user to manipulate maps in real-time.</p>
 <div id="map-generation">
-  <canvas id="canvas"></canvas>
+  <div id="display">
+    <canvas id="canvas"></canvas>
+    <div id="tile-details">Tile () Biome:</div>
+  </div>
   <div id="control-panel">
     <h2>Views</h2>
     <div id="view-toolbar">
