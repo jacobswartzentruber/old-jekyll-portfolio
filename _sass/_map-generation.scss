@@ -1,7 +1,7 @@
 #map-generation{
-	background-color: #D9DCE1;
-	padding: 10px;
-	border-radius: 5px;
+	h1{
+		text-align: center;
+	}
 	#display{
 		display: inline-block;
 		width: 49%;
@@ -11,9 +11,9 @@
 		width: 100%;
 	}
 	#control-panel{
-		display: inline-block;
 		width: 50%;
-		vertical-align:top;
+		display: inline-block;
+		vertical-align: top;
 	}
 	#view-toolbar{
 		margin: 5px 0px;
@@ -25,7 +25,7 @@
 		margin: 5px 0px;
 		display: inline-block;
 	}
-	#create-map{
+	#toggle-sim{
 		margin: 5px 0px;
 		display: inline-block;
 	}
