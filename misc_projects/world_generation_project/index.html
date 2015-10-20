@@ -12,6 +12,7 @@ image:
 <h3>Interactive Javascript Implementation</h3>
 <p>Go ahead and make a few maps with the Javascript implementation of the map generation software below!  The Javascript implementation utilizes the same algorithms as the original program developed in Java and creates similiar maps.  The Javascript implementation improves upon the original Java program as it allows the user to manipulate maps in real-time.  Additionally, mousing over various tiles updates the display which shows tile position, tile biome and any resident vegetation.</p>
 <p>Please be patient for vegetation to grow.  Even if it looks like there isn't anything happening at first, vegetation begin as seeds and must mature before populating more tiles.  Give it a minute and you will begin to see the various vegetation species spreading from thier initial locations!  If you physically change the map as opposed to merely switching views, vegetation is wiped from the map and a new simulation must be started.</p>
+<p>Use the arrow keys to scroll the map.</p>
 <div id="map-generation">
   <div id="display">
     <canvas id="canvas"></canvas>
@@ -55,7 +56,6 @@ image:
 <p>Finally, the precipitation overlay is its own unique, randomized field of Perlin Noise.  In this map, blue represents more moisture in a tile while black represents lack of moisture.</p>
 <h3>Biomes</h3>
 <p>To give the world variety and some semblance of organization the next step in generation is to assign biomes to various regions of the world.  Each tile is assigned a biome as determined by local temperature and moisture.  For instance, if a tile has very low temperature it will be assigned a "Scorched," "Bare", "Tundra" or "Snow" biome depending on the moisture content.  While not especially distinguishable visually, each biome is assigned a soil color which can be seen on the elevation map if you look hard enough.  The easiest one to see is "Snow" which is represented as white.  The simplest way to determine biomes is to hover your mouse over a tile in the program triggering a printout at the bottom of the screen.  Biomes help break the monotony of the standard map and allow localized trends to occur among other elements including population of vegetation.</p>
-<p>Use the arrow keys to scroll the map.</p>
 <h3>Vegetation Population</h3>
 <figure class="half">
   <img src="{{site.url}}/assets/generationlocalview.png">
