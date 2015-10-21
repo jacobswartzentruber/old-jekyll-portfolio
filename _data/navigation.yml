@@ -19,6 +19,11 @@
   excerpt: "... and some other cool programs"
   image: map-gen-teaser.jpg
 
+- title: Art
+  url: /artwork/
+  excerpt: "Assorted drawings I have done over the years"
+  image: artwork-teaser.jpg
+
 - title: Resources
   url: /resources/
   excerpt: "A collection of resources I have found helpful"
