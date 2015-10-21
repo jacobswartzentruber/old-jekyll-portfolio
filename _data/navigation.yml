@@ -3,7 +3,7 @@
 - title: Blog
   url: /blog/
   excerpt: "Lets learn some Ruby on Rails!"
-  image: default-teaser.jpg
+  image: default-teaser-long.jpg
 
 - title: About
   url: /about/
@@ -13,16 +13,17 @@
 - title: Web Projects
   url: /web_projects/
   excerpt: "Web applications I have developed"
+  image: coin-collector-teaser-long.jpg
 
 - title: Misc Projects
   url: /misc_projects/
   excerpt: "... and some other cool programs"
-  image: map-gen-teaser.jpg
+  image: map-gen-teaser-long.jpg
 
 - title: Art
   url: /artwork/
   excerpt: "Assorted drawings I have done over the years"
-  image: artwork-teaser.jpg
+  image: artwork-teaser-long.jpg
 
 - title: Resources
   url: /resources/
